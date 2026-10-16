@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Talend Estate Discovery</title>
+</head>
+<body>
+<title>Talend Estate Discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#f4f6f8; --paper:#ffffff; --ink:#17212b; --ink-2:#4a5664; --muted:#6b7684; --line:#dbe1e7; --soft:#eaeef2; --grid:#e6eaee;
+  --talend:#b45309; --sap:#0a5fb4; --sap-bg:#e6f0fb; --talend-bg:#fdf1e3;
+  --r-direct:#2a78d6; --r-pi:#eb6834; --r-share:#1baf7a;
+  --b1:#86b6ef; --b2:#3987e5; --b3:#1c5cab; --b4:#0d366b;
+  --read:#86b6ef; --write:#1c5cab;
+  --m-replace:#1baf7a; --m-adopt:#2a78d6; --m-retire:#eda100; --m-keep:#9aa7b4; --m-std:#d5dbe1;
+  --crit:#d03b3b; --warn:#fab219; --low:#9aa7b4; --good:#0ca30c;
+  --tt-bg:#17212b; --tt-ink:#ffffff; --tt-2:#c9d2db;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e141a; --paper:#151d25; --ink:#e5ebf1; --ink-2:#b4bfca; --muted:#8d99a6; --line:#2a3642; --soft:#1c2630; --grid:#233040;
+    --talend:#f0a35a; --sap:#6aaef5; --sap-bg:#12283f; --talend-bg:#33240f;
+    --r-direct:#3987e5; --r-pi:#d95926; --r-share:#199e70;
+    --b1:#184f95; --b2:#256abf; --b3:#5598e7; --b4:#9ec5f4;
+    --read:#256abf; --write:#9ec5f4;
+    --m-replace:#199e70; --m-adopt:#3987e5; --m-retire:#c98500; --m-keep:#6b7886; --m-std:#3a4652;
+    --tt-bg:#e5ebf1; --tt-ink:#0e141a; --tt-2:#3a4652;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0e141a; --paper:#151d25; --ink:#e5ebf1; --ink-2:#b4bfca; --muted:#8d99a6; --line:#2a3642; --soft:#1c2630; --grid:#233040;
+  --talend:#f0a35a; --sap:#6aaef5; --sap-bg:#12283f; --talend-bg:#33240f;
+  --r-direct:#3987e5; --r-pi:#d95926; --r-share:#199e70;
+  --b1:#184f95; --b2:#256abf; --b3:#5598e7; --b4:#9ec5f4;
+  --read:#256abf; --write:#9ec5f4;
+  --m-replace:#199e70; --m-adopt:#3987e5; --m-retire:#c98500; --m-keep:#6b7886; --m-std:#3a4652;
+  --tt-bg:#e5ebf1; --tt-ink:#0e141a; --tt-2:#3a4652;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--body);padding-inline:16px;padding-block:0 64px}
+a{color:var(--sap);text-underline-offset:2px}
+:focus-visible{outline:2px solid var(--sap);outline-offset:2px}
+code{font-family:var(--mono);font-size:.86em;background:var(--soft);padding:.05em .35em;border-radius:4px;overflow-wrap:anywhere}
+.num{font-variant-numeric:tabular-nums}
+
+header.masthead{max-width:1240px;margin:0 auto;padding-block:40px 26px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.eyebrow{font:600 12px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,5vw,46px)/1.08 var(--display);margin:.35em 0 .3em;text-wrap:balance}
+h1 .src{color:var(--talend)}
+.lede{max-width:70ch;color:var(--ink-2);font-size:17px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+
+.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:40px}
+@media (min-width:1040px){.shell{grid-template-columns:210px minmax(0,1fr)}}
+nav.toc{display:none}
+@media (min-width:1040px){
+  nav.toc{display:block;position:sticky;top:24px;align-self:start;font-size:13.5px}
+  nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  nav.toc a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted);text-decoration:none}
+  nav.toc a:hover{background:var(--soft);color:var(--ink)}
+}
+main{min-width:0}
+section{padding-block:6px 34px;border-bottom:1px solid var(--line);margin-bottom:34px}
+section:last-child{border-bottom:0}
+h2{font:600 clamp(23px,3vw,29px)/1.2 var(--display);margin:0 0 .35em;text-wrap:balance;scroll-margin-top:16px}
+h3{font:600 17px/1.3 var(--display);margin:0 0 .4em;letter-spacing:.01em}
+.intro{max-width:72ch;color:var(--ink-2);margin:0 0 18px}
+p{margin:.5em 0}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 22px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px;align-content:start}
+.kpi .k{font:600 11.5px/1.2 var(--display);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font:600 34px/1.05 var(--display);color:var(--ink)}
+.kpi .v small{font-size:15px;color:var(--muted);font-weight:500;margin-left:4px}
+.kpi .d{font-size:13px;color:var(--ink-2)}
+.kpi.accent{border-color:var(--sap);background:var(--sap-bg)}
+
+.grid2{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:880px){.grid2{grid-template-columns:1fr 1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;min-width:0}
+.card .sub{font-size:13px;color:var(--muted);margin:-2px 0 12px}
+.messages{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.messages li{padding-left:14px;border-left:3px solid var(--line);max-width:80ch}
+.messages b{font-family:var(--display);font-weight:600;font-size:15.5px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-2);margin:0 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.legend i.line{height:3px;border-radius:2px;width:16px}
+
+/* HTML bar charts */
+.bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:minmax(120px,38%) 1fr auto;align-items:center;gap:10px;font-size:13px}
+.bar-row .lab{color:var(--ink);overflow-wrap:anywhere;line-height:1.3}
+.bar-row .lab small{display:block;color:var(--muted);font-size:11.5px}
+.track{display:flex;gap:2px;height:18px;align-items:stretch;min-width:0}
+.seg{border-radius:0;min-width:3px;cursor:default;transition:filter .12s}
+.seg:first-child{border-top-left-radius:4px;border-bottom-left-radius:4px}
+.seg:last-child{border-top-right-radius:4px;border-bottom-right-radius:4px}
+.seg:hover,.seg:focus-visible{filter:brightness(1.15)}
+.bar-row .val{font-variant-numeric:tabular-nums;color:var(--ink-2);min-width:2.5ch;text-align:right}
+@media (max-width:520px){.bar-row{grid-template-columns:1fr auto}.bar-row .track{grid-column:1/-1;order:3}}
+
+/* segmented distribution */
+.dist{display:flex;gap:2px;height:64px;margin:8px 0 6px}
+.dist .seg{display:flex;flex-direction:column;justify-content:center;padding:0 10px;color:#fff;overflow:hidden;white-space:nowrap}
+.dist .seg b{font:600 22px/1 var(--display)}
+.dist .seg span{font-size:12px;opacity:.95;white-space:normal;line-height:1.15}
+.dist .seg.lightink{color:#0d2a4d}
+.scale-note{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+
+/* diagram */
+.diagram{overflow-x:auto;margin:6px -4px 0;padding:4px}
+.diagram svg{display:block;width:100%;min-width:700px;height:auto}
+.node rect{stroke-width:1.6}
+.node:hover rect,.node:focus-visible rect{stroke-width:3}
+.node text{font-family:var(--body)}
+.node .t1{font:600 15px var(--display);fill:var(--ink)}
+.node .t2{font-size:12px;fill:var(--ink-2)}
+.node .t3{font:600 12px var(--body)}
+.edge{fill:none;stroke-width:2.4}
+.edge.dash{stroke-dasharray:6 5}
+
+.strip svg{display:block;width:100%;min-width:640px;height:auto}
+.dot{stroke:var(--paper);stroke-width:2;cursor:default}
+.dot:hover,.dot:focus-visible{stroke:var(--ink);stroke-width:2}
+
+/* range */
+.range{position:relative;height:74px;margin:16px 8px 8px}
+.range .axis{position:absolute;left:0;right:0;top:40px;height:2px;background:var(--line)}
+.range .span{position:absolute;top:32px;height:18px;border-radius:9px;background:var(--sap-bg);border:1.5px solid var(--sap)}
+.range .mark{position:absolute;top:22px;width:4px;height:38px;border-radius:2px;background:var(--sap);transform:translateX(-2px)}
+.range .lbl{position:absolute;top:0;transform:translateX(-50%);font-size:12px;color:var(--ink-2);white-space:nowrap;text-align:center}
+.range .lbl b{display:block;font:600 18px/1 var(--display);color:var(--ink)}
+.range .tick{position:absolute;top:56px;transform:translateX(-50%);font-size:11px;color:var(--muted)}
+
+.formula{font-family:var(--mono);font-size:14px;color:var(--sap);background:var(--sap-bg);border-radius:8px;
+  padding:12px 14px;margin:4px 0 14px;overflow-x:auto;white-space:nowrap}
+table.symbols td.sym{font-family:var(--mono);font-weight:600;color:var(--sap);width:4em}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font:600 11.5px/1.3 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--soft);white-space:nowrap}
+th button{all:unset;cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+th button:focus-visible{outline:2px solid var(--sap);outline-offset:2px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td code{white-space:nowrap;overflow-wrap:normal}
+.chip{display:inline-flex;align-items:center;gap:5px;font:600 11.5px/1 var(--body);padding:4px 8px;border-radius:999px;white-space:nowrap;background:var(--soft);color:var(--ink)}
+.chip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.chip.pi{background:var(--talend-bg);color:var(--talend)}
+.chip.flag{background:transparent;border:1px solid var(--line);color:var(--ink-2);font-weight:500}
+.mini{display:flex;align-items:center;gap:8px;min-width:120px}
+.mini .fill{height:8px;border-radius:4px}
+.mini span{font-variant-numeric:tabular-nums;color:var(--ink-2);min-width:3ch}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:end;margin:0 0 12px}
+.filters label{display:grid;gap:4px;font:600 11.5px/1 var(--display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.filters input[type=search],.filters select{font:14px var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:0;max-width:100%}
+.filters input[type=search]{width:220px}
+.filters .check{display:flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font:14px var(--body);color:var(--ink);padding-bottom:7px}
+.count{font-size:13px;color:var(--muted);margin-left:auto;padding-bottom:8px}
+
+.sev{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--body)}
+.sev i{width:10px;height:10px;border-radius:2px}
+.rules{display:grid;gap:6px;margin:10px 0 0;padding:0;list-style:none;font-size:13.5px}
+.rules li{display:grid;grid-template-columns:34px 1fr;gap:8px;max-width:90ch}
+.rules b{font-family:var(--mono);font-size:12.5px;color:var(--sap)}
+.steps{margin:0;padding-left:1.2em;display:grid;gap:6px;max-width:80ch}
+
+#tt{position:fixed;z-index:10;pointer-events:none;background:var(--tt-bg);color:var(--tt-ink);border-radius:8px;padding:8px 10px;font-size:12.5px;line-height:1.35;max-width:300px;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+#tt .tv{font:600 16px var(--display)}
+#tt .tl{color:var(--tt-2)}
+#tt .tr{display:flex;gap:8px;align-items:baseline}
+#tt .tr i{display:inline-block;width:12px;height:3px;border-radius:2px;flex:none;transform:translateY(-3px)}
+/* salesforce modernization */
+.kpi.good{border-color:var(--m-replace)}
+.rec{display:inline-flex;align-items:center;gap:6px;font:600 12px/1.2 var(--body);white-space:nowrap}
+.rec i{width:10px;height:10px;border-radius:3px;flex:none}
+.fit{display:inline-block;font:600 11.5px/1 var(--body);padding:4px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.fit.High{border-color:var(--m-replace);color:var(--ink)}
+.map-list{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.map-list li{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.map-list li:last-child{border-bottom:0}
+.map-list .from code{white-space:normal;overflow-wrap:anywhere}
+.map-list .arrow{color:var(--muted);text-align:center}
+.map-list .to{font-weight:600;overflow-wrap:anywhere}
+.map-list .to small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.domains{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
+@media (min-width:880px){.domains{grid-template-columns:1fr 1fr}}
+.patterns{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:880px){.patterns{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pattern{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.pattern header{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.pattern h4{margin:0;font:600 15.5px/1.25 var(--display)}
+.pattern .pk{font-variant-numeric:tabular-nums;font:600 20px/1 var(--display);white-space:nowrap}
+.pattern .pk small{font:500 11.5px var(--body);color:var(--muted);margin-left:3px}
+.pattern dl{margin:0;display:grid;grid-template-columns:78px minmax(0,1fr);gap:4px 10px;font-size:13px}
+.pattern dt{font:600 11px/1.6 var(--display);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.pattern dd{margin:0;color:var(--ink-2)}
+.pattern dd.std{color:var(--ink)}
+.note{background:var(--talend-bg);border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--ink);max-width:100%}
+.note b{font-family:var(--display)}
+footer{max-width:1240px;margin:0 auto;color:var(--muted);font-size:13px}
+</style>
+
+<header class="masthead">
+  <div class="eyebrow">Discovery · Talend source environment</div>
+  <h1><span class="src">Talend</span> estate discovery</h1>
+  <p class="lede">What the Talend estate connects, how (through SAP PI or directly), how complex it is and how many iFlows it becomes in SAP Integration Suite. Every figure is derived from the complete Talend documentation export.</p>
+  <div class="meta">
+    <span><b>Scope</b> 50 packages · 123 jobs · 3,231 components</span>
+    <span><b>Source</b> Talend Data Management Platform 8.0.1</span>
+    <span><b>Target</b> SAP Integration Suite</span>
+    <span><b>As of</b> 14 Oct 2026</span>
+  </div>
+</header>
+
+<div class="shell">
+<nav class="toc" aria-label="Contents"><ol>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#landscape">Landscape</a></li>
+  <li><a href="#connections">Connections &amp; adapters</a></li>
+  <li><a href="#patterns">Integration patterns</a></li>
+  <li><a href="#complexity">Complexity &amp; approach</a></li>
+  <li><a href="#target">Target iFlows</a></li>
+  <li><a href="#salesforce">Salesforce modernization</a></li>
+  <li><a href="#explorer">Package explorer</a></li>
+  <li><a href="#findings">Findings</a></li>
+  <li><a href="#next">Next steps</a></li>
+</ol></nav>
+
+<main>
+<section id="overview">
+  <h2>Overview</h2>
+  <div class="kpis">
+    <div class="kpi"><span class="k">Talend packages</span><span class="v">50</span><span class="d">123 jobs, 3,231 components</span></div>
+    <div class="kpi accent"><span class="k">Target iFlows</span><span class="v">58<small>44–68</small></span><span class="d">expected, with minimum–maximum range</span></div>
+    <div class="kpi"><span class="k">End systems</span><span class="v">14</span><span class="d">530 connections classified</span></div>
+    <div class="kpi"><span class="k">Through SAP PI</span><span class="v">28</span><span class="d">21 SOAP · 7 PI file drop packages</span></div>
+    <div class="kpi"><span class="k">Salesforce</span><span class="v">49</span><span class="d">packages · 77 objects · 19 integration users</span></div>
+    <div class="kpi"><span class="k">Custom logic</span><span class="v">1,310</span><span class="d">transformation expressions · 1,745 Java lines</span></div>
+  </div>
+  <div class="card">
+    <h3>Key messages</h3>
+    <ul class="messages">
+      <li><b>Salesforce is the hub.</b> 49 of 50 packages read or write Salesforce through the SOAP data API with username/password logins; each of the 19 integration users becomes an OAuth2 connection in Integration Suite.</li>
+      <li><b>SAP is only reached through SAP PI.</b> 21 packages call 7 PI SOAP services and 7 consume files PI drops on a Windows share. Receiver systems behind PI are not visible in Talend.</li>
+      <li><b>Windows shares are an integration transport</b> in 30 packages. Integration Suite cannot reach them: SFTP via Cloud Connector or direct APIs replace them.</li>
+      <li><b>Complexity is concentrated</b> in the service-order family, which exists in parallel variants. Confirming the live variant removes a large part of the effort.</li>
+      <li><b>50 packages become about 58 iFlows.</b> Variants are consolidated; file dispatchers split per message type; shared sub-jobs become reusable ProcessDirect iFlows.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="landscape">
+  <h2>Landscape</h2>
+  <p class="intro">End systems connected to Talend, coloured by route. Hover or focus a system for its channels, Integration Suite adapter and connectivity.</p>
+  <div class="card">
+    <div class="legend" id="route-legend"></div>
+    <div class="diagram" id="landscape"></div>
+  </div>
+</section>
+
+<section id="connections">
+  <h2>Connections &amp; adapters</h2>
+  <p class="intro">How the 530 connections split by route, which adapters Integration Suite needs, and the services and Salesforce objects involved.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Packages by route</h3>
+      <p class="sub">A package can use several routes. Connection counts in the tooltip.</p>
+      <div class="bars" id="routes"></div>
+    </div>
+    <div class="card">
+      <h3>Salesforce objects most used</h3>
+      <p class="sub">Packages reading and writing each object.</p>
+      <div class="legend"><span><i style="background:var(--read)"></i>Read</span><span><i style="background:var(--write)"></i>Written</span></div>
+      <div class="bars" id="sfobjects"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Integration Suite adapters needed</h3>
+    <p class="sub">Number of packages that need each adapter; connectivity under the name.</p>
+    <div class="bars" id="adapters"></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>SOAP services called by Talend</h3>
+    <p class="sub">SAP PI service interfaces and Salesforce Apex SOAP classes.</p>
+    <div class="tablewrap"><table id="services"><thead><tr><th>Kind</th><th>Service</th><th>Mode</th><th>Operations</th><th class="n">Packages</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<section id="patterns">
+  <h2>Integration patterns</h2>
+  <p class="intro">Each package classified by what triggers it and its main target, split by complexity band.</p>
+  <div class="card">
+    <div class="legend" id="band-legend"></div>
+    <div class="bars" id="families"></div>
+  </div>
+</section>
+
+<section id="complexity">
+  <h2>Complexity &amp; approach</h2>
+  <p class="intro">A transparent points model (mapping logic, lookups, Java, routines, sub-jobs, end systems, services, writes, files). Each band maps to exactly one migration approach, so the two counts always match.</p>
+  <div class="card">
+    <h3>Packages by band = approach</h3>
+    <div class="dist" id="dist"></div>
+    <div class="scale-note"><span>Wave 1</span><span>Wave 2</span><span>Wave 3</span></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>How the score is calculated</h3>
+    <p class="sub">Every factor is counted mechanically from the Talend export; each term is rounded before the terms are added.</p>
+    <p class="formula">Score = 0.6·L + 0.1·(E−L) + 3·K + 2·R + J/3 + 6·P + 5·(N−1) + 6·(S−1) + 6·V + 3·W + min(15, 2·F) + C/8</p>
+    <div class="tablewrap"><table class="symbols"><thead><tr><th>Symbol</th><th>Factor</th><th>Counted as</th><th>Weight</th></tr></thead><tbody><tr><td class="sym">L</td><td>Transformation expressions</td><td>tMap / tXMLMap expressions that do more than copy a field</td><td>0.6</td></tr><tr><td class="sym">E</td><td>All mapping expressions</td><td>every output column expression, copies included</td><td>0.1 on E−L</td></tr><tr><td class="sym">K</td><td>Lookups</td><td>tMap lookup inputs</td><td>3</td></tr><tr><td class="sym">R</td><td>RELOAD lookups</td><td>lookups re-queried for every row</td><td>2 extra</td></tr><tr><td class="sym">J</td><td>Custom Java lines</td><td>tJava / tJavaRow, comments excluded</td><td>1 per 3 lines</td></tr><tr><td class="sym">P</td><td>Project routine calls</td><td>distinct routines such as StringMod.PadLeft</td><td>6</td></tr><tr><td class="sym">N</td><td>Jobs in the package</td><td>master plus child jobs</td><td>5 per job beyond the first</td></tr><tr><td class="sym">S</td><td>End systems</td><td>distinct systems the package touches</td><td>6 per system beyond the first</td></tr><tr><td class="sym">V</td><td>SOAP service operations</td><td>distinct PI service interfaces and Apex SOAP operations</td><td>6</td></tr><tr><td class="sym">W</td><td>Write operations</td><td>distinct Salesforce object + action combinations</td><td>3</td></tr><tr><td class="sym">F</td><td>File operations</td><td>read, write, move, archive</td><td>2, capped at 15</td></tr><tr><td class="sym">C</td><td>Components</td><td>all Talend components in the package</td><td>1 per 8</td></tr></tbody></table></div>
+    <p class="sub" style="margin-top:10px">Bands: Simple < 45 ≤ Medium < 110 ≤ Complex < 250 ≤ Very complex · approach = Migrate / Adapt / Rework / Redesign, one-to-one.</p>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Score of every package</h3>
+    <p class="sub">Square-root scale; dashed lines are the band thresholds (45, 110, 250). Hover a dot for the package and its top drivers.</p>
+    <div class="strip diagram" id="strip"></div>
+  </div>
+</section>
+
+<section id="target">
+  <h2>Target iFlows</h2>
+  <p class="intro">Talend packages are the source; the iFlows to build differ because some packages are variants of each other and some contain several independent flows.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>How many iFlows</h3>
+      <p class="sub">Minimum, expected (recommended design) and maximum.</p>
+      <div class="range" id="range"></div>
+      <ul class="rules" id="rules"></ul>
+    </div>
+    <div class="card">
+      <h3>By iFlow type (expected)</h3>
+      <p class="sub">Tooltip shows minimum and maximum per type.</p>
+      <div class="bars" id="bytype"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Where one package ≠ one iFlow</h3>
+    <div class="tablewrap"><table id="special"><thead><tr><th>Proposed iFlow</th><th>Type</th><th class="n">Min</th><th class="n">Exp.</th><th class="n">Max</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<section id="salesforce">
+  <h2>Salesforce modernization</h2>
+  <p class="intro">The Talend jobs use 63 Salesforce objects, 52 of them custom. Most belong to a legacy field-service model (the <code>SC…</code> objects) that predates Salesforce Field Service. Rebuilding the interfaces is the moment to decide whether the iFlows target those objects or standard Salesforce content, and to modernize how the integrations call Salesforce.</p>
+  <div class="kpis">
+    <div class="kpi good"><span class="k">Replace with standard</span><span class="v">29<small>objects</small></span><span class="d">15 of them with a high-fit standard object</span></div>
+    <div class="kpi"><span class="k">Packages affected</span><span class="v">44<small>of 50</small></span><span class="d">touch an object that could move to standard or retire</span></div>
+    <div class="kpi"><span class="k">Field Service in the org</span><span class="v">Yes</span><span class="d"><code>WorkOrder</code>, <code>Asset</code> and <code>FSL_*</code> fields are already queried</span></div>
+    <div class="kpi"><span class="k">Operation patterns</span><span class="v" id="sfm-npat"></span><span class="d">to modernize regardless of the data model</span></div>
+  </div>
+  <div class="card">
+    <h3>Objects by domain and recommendation</h3>
+    <p class="sub">Every Salesforce object read or written by a Talend job. Hover a segment for the objects in it.</p>
+    <div class="legend" id="sfm-legend"></div>
+    <div class="bars" id="sfm-domains"></div>
+  </div>
+  <h3 style="margin:26px 0 10px">Custom object → standard Salesforce</h3>
+  <div class="domains" id="sfm-maps"></div>
+  <h3 style="margin:26px 0 4px">Integration operations to modernize</h3>
+  <p class="sub" style="color:var(--muted);font-size:13px;margin:0 0 12px">Independent of the data model; most cost little extra during the rebuild.</p>
+  <div class="patterns" id="sfm-patterns"></div>
+  <div class="card" style="margin-top:18px">
+    <h3>All objects</h3>
+    <div class="filters">
+      <label for="sfm-rec">Recommendation<select id="sfm-rec"><option value="">All</option></select></label>
+      <label for="sfm-dom">Domain<select id="sfm-dom"><option value="">All</option></select></label>
+      <span class="count" id="sfm-count" aria-live="polite"></span>
+    </div>
+    <div class="tablewrap"><table id="sfm-table"><thead><tr><th>Object</th><th>Domain</th><th>Standard target</th><th>Fit</th><th>Recommendation</th><th class="n">Pkgs</th><th>Writes</th><th>Rationale</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>How to use this in the migration</h3>
+      <ul class="steps">
+        <li><b>Do not couple the changes by default.</b> Migrate interfaces on the existing objects unless the Salesforce team is already moving to Field Service; otherwise each interface is built twice.</li>
+        <li><b>Adopt the operation patterns now:</b> OAuth, relationship queries, sObject Collections, upsert instead of delete-and-reload, Integration Suite monitoring and value mappings.</li>
+        <li><b>If the data model moves, go by domain:</b> service execution, then installed base and contracts, then parts and logistics. Decide before the service-order redesign wave.</li>
+        <li><b>Replace polling with events</b> where Salesforce is the source: record-triggered Flow or Change Data Capture publishing to Integration Suite.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Evidence and caveats</h3>
+      <ul class="steps" id="sfm-evidence"></ul>
+      <p class="note" style="margin-top:12px" id="sfm-caveat"></p>
+    </div>
+  </div>
+</section>
+
+<section id="explorer">
+  <h2>Package explorer</h2>
+  <p class="intro">All 50 packages with their pattern, complexity, route and target. Filter and sort to plan waves.</p>
+  <div class="filters">
+    <label for="f-q">Search<input type="search" id="f-q" placeholder="Package or system"></label>
+    <label for="f-band">Band<select id="f-band"><option value="">All</option></select></label>
+    <label for="f-family">Pattern<select id="f-family"><option value="">All</option></select></label>
+    <label for="f-route">Route<select id="f-route"><option value="">All</option><option value="pi">Through SAP PI</option><option value="direct">Direct only</option></select></label>
+    <label class="check" for="f-decision"><input type="checkbox" id="f-decision">Decision needed</label>
+    <span class="count" id="f-count" aria-live="polite"></span>
+  </div>
+  <div class="tablewrap"><table id="pk"><thead><tr>
+    <th><button data-sort="package">Package</button></th>
+    <th><button data-sort="family">Pattern</button></th>
+    <th><button data-sort="score">Score</button></th>
+    <th><button data-sort="band">Band = approach</button></th>
+    <th>Route</th>
+    <th class="n"><button data-sort="iflows">iFlows</button></th>
+    <th><button data-sort="wave">Wave</button></th>
+    <th>Decision needed</th>
+  </tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="findings">
+  <h2>Findings</h2>
+  <p class="intro">Hygiene, logic, portability, security, operations and architecture findings, with the number of packages affected.</p>
+  <div class="tablewrap"><table id="fnd"><thead><tr><th>Severity</th><th>Area</th><th>Finding</th><th>Packages</th><th>Recommended action</th></tr></thead><tbody></tbody></table></div>
+  <div class="card" style="margin-top:18px">
+    <h3>Shared sub-jobs</h3>
+    <p class="sub">Present in several packages. Variants above 1 mean the copies differ and must be reconciled before building once.</p>
+    <div class="bars" id="shared"></div>
+  </div>
+</section>
+
+<section id="next">
+  <h2>Next steps</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Recommended sequence</h3>
+      <ol class="steps">
+        <li><b>Before wave 1:</b> Cloud Connector, SFTP instead of shares, Salesforce OAuth, PI access; confirm live variants and drafts.</li>
+        <li><b>Wave 1 (Simple · Migrate):</b> rebuild on the two templates already built (Salesforce → SAP via PI, SAP via PI file → Salesforce).</li>
+        <li><b>Wave 2 (Medium · Adapt):</b> after routines and custom Java are ported into shared script collections.</li>
+        <li><b>Wave 3 (Complex · Rework, Very complex · Redesign):</b> service-order family and Gessat, shared sub-jobs as ProcessDirect iFlows.</li>
+        <li><b>Every interface:</b> prove parity against Talend_Jobmonitor__c, TMC logs and archived files before cut-over.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Needed from the client</h3>
+      <ul class="steps">
+        <li>TMC task list: schedules, context values per task, run history and volumes.</li>
+        <li>SAP PI Integration Directory for the 7 service interfaces and the PI file channels.</li>
+        <li>Project routine sources (<code>StringMod</code>, <code>TDIData</code>).</li>
+        <li>Plans for SAP PI and the <code>P:\Services</code> shares; SFTP endpoints for partners, Gessat and Speos.</li>
+        <li>Confirmation of live variants and draft (0.x) packages.</li>
+        <li>Salesforce team: Field Service licences and roadmap, object metadata and record volumes for the <code>SC…</code> objects.</li>
+      </ul>
+      <p class="sub" style="margin-top:12px">Row-level detail: <code>Talend_Discovery_Workbook.xlsx</code> · Narrative: <code>Talend_Discovery_Report.docx</code> · Method and object mapping: <a href="Talend_Migration_Handbook.html">Talend to Integration Suite Handbook</a>.</p>
+    </div>
+  </div>
+</section>
+</main>
+</div>
+<footer>Generated from the Talend documentation export by the Talend_To_IS discovery tooling. Host names, IP addresses and user names are omitted from this page.</footer>
+<div id="tt" role="tooltip" hidden></div>
+
+<script type="application/json" id="data">{"sfm": {"summary": {"objects": 63, "custom": 52, "by_recommendation": {"Replace with standard": 29, "Adopt standard feature": 3, "Keep custom": 18, "Retire with Talend": 3, "Already standard": 10}, "packages_touching_replaceable": 44, "high_fit_replace": 15}, "evidence": ["MailPrintJob__c reads WorkOrderId__r.WorkOrderNumber, Asset_Brand__c and FSL_Invoice_Recipient__r: standard WorkOrder, Asset and Field Service are already in use.", "ContentVersion, ContentDocument and ContentDocumentLink are queried next to the legacy Attachment object.", "Several interfaces exist as …_New variants of the service-order flows, consistent with a data model in transition.", "21 of the objects already use the ID2__c external ID, which can be carried onto standard objects as the upsert key."], "caveat": "Assessment from object and field names used in the Talend jobs; confirm with org metadata, record volumes, managed packages and licences (Field Service, Loyalty Management, Revenue Cloud).", "objects": [{"object": "Talend_Jobmonitor__c", "custom": true, "domain": "Integration technical", "standard_target": "Integration Suite monitoring (MPL) / SAP Cloud ALM", "fit": "High", "recommendation": "Retire with Talend", "licence": "", "rationale": "Talend run log written by the monitoring joblet in 28 packages.", "packages": 28, "read_by": 0, "written_by": 28, "write_actions": ["UPSERT"], "fields_used": 17}, {"object": "SCOrder__c", "custom": true, "domain": "Service execution", "standard_target": "WorkOrder", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Service order header; WorkOrder is already used in the org (MailPrintJob__c → WorkOrderId__r).", "packages": 21, "read_by": 20, "written_by": 17, "write_actions": ["UPDATE"], "fields_used": 77}, {"object": "Account", "custom": false, "domain": "Customers & partners", "standard_target": "Account / Person Account", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 16, "read_by": 15, "written_by": 11, "write_actions": ["UPDATE", "UPSERT"], "fields_used": 57}, {"object": "SCOrderRole__c", "custom": true, "domain": "Service execution", "standard_target": "WorkOrder Account/Contact lookups + invoice recipient field", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Order partner roles and addresses; FSL_Invoice_Recipient__c already exists on WorkOrder.", "packages": 15, "read_by": 15, "written_by": 9, "write_actions": ["UPDATE"], "fields_used": 65}, {"object": "RecordType", "custom": false, "domain": "Customers & partners", "standard_target": "RecordType", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 13, "read_by": 13, "written_by": 0, "write_actions": [], "fields_used": 14}, {"object": "SCArticle__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Product2", "fit": "High", "recommendation": "Replace with standard", "licence": "", "rationale": "Material master from SAP (EAN, units, lock type, replaced-by, translations).", "packages": 13, "read_by": 13, "written_by": 2, "write_actions": ["UPDATE", "UPSERT"], "fields_used": 71}, {"object": "Brand__c", "custom": true, "domain": "Customers & partners", "standard_target": "–", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Brand reference data (multi-brand group).", "packages": 12, "read_by": 12, "written_by": 0, "write_actions": [], "fields_used": 13}, {"object": "SCOrderLine__c", "custom": true, "domain": "Service execution", "standard_target": "WorkOrderLineItem + ProductConsumed", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Priced service and parts lines; discounts and SAP pricing JSON stay as custom fields.", "packages": 12, "read_by": 12, "written_by": 9, "write_actions": ["UPDATE"], "fields_used": 118}, {"object": "SCOrderItem__c", "custom": true, "domain": "Service execution", "standard_target": "WorkOrderLineItem (AssetId)", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Installed-base item on the order with error symptoms; symptoms become custom fields or picklists.", "packages": 11, "read_by": 11, "written_by": 0, "write_actions": [], "fields_used": 38}, {"object": "SCArticleDetail__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Product2 + custom sales-area child", "fit": "Medium", "recommendation": "Keep custom", "licence": "", "rationale": "Country/brand sales data per material (SAP sales-area view); no standard equivalent.", "packages": 10, "read_by": 10, "written_by": 2, "write_actions": ["UPDATE", "UPSERT"], "fields_used": 43}, {"object": "SCMaterialMovement__c", "custom": true, "domain": "Parts & logistics", "standard_target": "ProductTransfer / ProductConsumed / ProductRequest", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Goods movements, receipts, returns and replenishment requests to SAP; split by movement type.", "packages": 9, "read_by": 8, "written_by": 9, "write_actions": ["UPDATE", "UPSERT"], "fields_used": 63}, {"object": "SCBusinessUnit__c", "custom": true, "domain": "Service execution", "standard_target": "ServiceTerritory (+ OperatingHours)", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Service department / area with cost centre.", "packages": 8, "read_by": 8, "written_by": 0, "write_actions": [], "fields_used": 7}, {"object": "SCContract__c", "custom": true, "domain": "Contracts", "standard_target": "ServiceContract", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service / Service Cloud", "rationale": "Maintenance contract with start/end, account and SAP reference.", "packages": 8, "read_by": 8, "written_by": 0, "write_actions": [], "fields_used": 14}, {"object": "SCInstalledBase__c", "custom": true, "domain": "Installed base & warranty", "standard_target": "Asset", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Installed appliance with serial number and location; Asset is already referenced (Asset_Brand__c).", "packages": 8, "read_by": 8, "written_by": 0, "write_actions": [], "fields_used": 10}, {"object": "SCInterfaceLog__c", "custom": true, "domain": "Integration technical", "standard_target": "Integration Suite monitoring + status fields on the record", "fit": "High", "recommendation": "Retire with Talend", "licence": "", "rationale": "Interface payload log per order.", "packages": 8, "read_by": 2, "written_by": 8, "write_actions": ["INSERT"], "fields_used": 8}, {"object": "SCOrderRepairCode__c", "custom": true, "domain": "Service execution", "standard_target": "WorkOrderLineItem fields or custom child", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Repair / failure codes are business-specific; keep as custom child of the work order.", "packages": 8, "read_by": 8, "written_by": 0, "write_actions": [], "fields_used": 3}, {"object": "SCTimeReport__c", "custom": true, "domain": "Service execution", "standard_target": "TimeSheet / TimeSheetEntry", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Engineer time reports (added by the Gessat mobile service).", "packages": 8, "read_by": 8, "written_by": 0, "write_actions": [], "fields_used": 6}, {"object": "SCContractAccounting__c", "custom": true, "domain": "Contracts", "standard_target": "ContractLineItem + billing schedule (custom)", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Contract billing periods with SAP invoice numbers; no standard billing object without Revenue Cloud.", "packages": 7, "read_by": 7, "written_by": 3, "write_actions": ["UPDATE"], "fields_used": 7}, {"object": "Attachment", "custom": false, "domain": "Communication & documents", "standard_target": "ContentVersion / ContentDocumentLink (Files)", "fit": "High", "recommendation": "Replace with standard", "licence": "", "rationale": "Legacy Notes & Attachments; the org already uses Files (ContentVersion) elsewhere.", "packages": 5, "read_by": 5, "written_by": 0, "write_actions": [], "fields_used": 7}, {"object": "SCResource__c", "custom": true, "domain": "Service execution", "standard_target": "ServiceResource", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Engineer / technician master. The custom object carries a Password__c field read by integration (security finding).", "packages": 5, "read_by": 5, "written_by": 0, "write_actions": [], "fields_used": 53}, {"object": "epsEPSSAP__c", "custom": true, "domain": "Integration technical", "standard_target": "SAP Integration Suite Value Mapping", "fit": "High", "recommendation": "Retire with Talend", "licence": "", "rationale": "EPS-to-SAP code mapping (plant, movement type, sales org); belongs in Integration Suite value mappings.", "packages": 5, "read_by": 5, "written_by": 0, "write_actions": [], "fields_used": 37}, {"object": "SCAppointment__c", "custom": true, "domain": "Service execution", "standard_target": "ServiceAppointment", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Scheduled visit with start/end.", "packages": 4, "read_by": 4, "written_by": 0, "write_actions": [], "fields_used": 8}, {"object": "User", "custom": false, "domain": "Customers & partners", "standard_target": "User", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 4, "read_by": 4, "written_by": 0, "write_actions": [], "fields_used": 5}, {"object": "BrandDetail__c", "custom": true, "domain": "Customers & partners", "standard_target": "–", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Per-brand SAP sales data on the account (credit limit, payment terms, SAP block).", "packages": 3, "read_by": 3, "written_by": 2, "write_actions": ["UPDATE"], "fields_used": 13}, {"object": "SCAssignment__c", "custom": true, "domain": "Service execution", "standard_target": "AssignedResource / ServiceAppointment", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Engineer assignment to an order.", "packages": 3, "read_by": 3, "written_by": 0, "write_actions": [], "fields_used": 40}, {"object": "eps_GuaranteeAction__c", "custom": true, "domain": "Installed base & warranty", "standard_target": "Custom child of AssetWarranty", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Guarantee roles and shipment dates.", "packages": 3, "read_by": 3, "written_by": 2, "write_actions": ["UPDATE"], "fields_used": 3}, {"object": "eps_Guarantee__c", "custom": true, "domain": "Installed base & warranty", "standard_target": "AssetWarranty (+ WarrantyTerm)", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Product registration and guarantee by serial number with first ignition.", "packages": 3, "read_by": 3, "written_by": 0, "write_actions": [], "fields_used": 35}, {"object": "ArticleHierarchy__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Product2.Family / ProductCategory", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Three-level product hierarchy with 20 translations; ProductCategory needs Commerce.", "packages": 2, "read_by": 2, "written_by": 1, "write_actions": ["UPSERT"], "fields_used": 40}, {"object": "BMBudgetElement__c", "custom": true, "domain": "Sales", "standard_target": "–", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Budget element reference sent to SAP.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 2}, {"object": "ContentVersion", "custom": false, "domain": "Communication & documents", "standard_target": "ContentVersion", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object (Files).", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 8}, {"object": "Installer_assignment__c", "custom": true, "domain": "Customers & partners", "standard_target": "AccountContactRelation / partner relationship", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Installer to postal code and brand matrix (ES).", "packages": 2, "read_by": 2, "written_by": 1, "write_actions": ["DELETE", "INSERT"], "fields_used": 21}, {"object": "Opportunity", "custom": false, "domain": "Sales", "standard_target": "Opportunity", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 3}, {"object": "SCCondition__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Pricing adjustments (Revenue Cloud / CPQ)", "fit": "Low", "recommendation": "Keep custom", "licence": "Revenue Cloud / CPQ", "rationale": "SAP pricing conditions; only standard with a pricing product.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 1}, {"object": "SCInventory__c", "custom": true, "domain": "Parts & logistics", "standard_target": "ProductItem + inventory count (custom)", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Stock count header; counts themselves stay custom.", "packages": 2, "read_by": 2, "written_by": 1, "write_actions": ["UPDATE"], "fields_used": 10}, {"object": "SCOrderReason__c", "custom": true, "domain": "Service execution", "standard_target": "WorkType", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Order reason with its ERP key; WorkType (or a picklist on WorkOrder) covers it.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 2}, {"object": "SCPriceGroup__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Pricebook2 (one per price group)", "fit": "Medium", "recommendation": "Replace with standard", "licence": "", "rationale": "Price groups become separate price books.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 11}, {"object": "SCProductModel__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Product2 (model) ", "fit": "Medium", "recommendation": "Replace with standard", "licence": "", "rationale": "Appliance models; Product2 with a record type.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 48}, {"object": "SCStock__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Location (inventory location)", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Stock / van stock with delivery calendar.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 5}, {"object": "ZZ_CKL_Safety__c", "custom": true, "domain": "Service execution", "standard_target": "Field Service mobile flow + custom checklist object", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Gas-safety checklist (GB); regulatory content stays custom, captured through mobile flows.", "packages": 2, "read_by": 2, "written_by": 2, "write_actions": ["INSERT"], "fields_used": 44}, {"object": "eps_Fulfillment__c", "custom": true, "domain": "Sales", "standard_target": "Order / FulfillmentOrder", "fit": "Low", "recommendation": "Keep custom", "licence": "Order Management", "rationale": "Fulfillment reference.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 2}, {"object": "eps_Loyalty__c", "custom": true, "domain": "Sales", "standard_target": "LoyaltyProgramMember (Loyalty Management)", "fit": "Low", "recommendation": "Keep custom", "licence": "Loyalty Management", "rationale": "Loyalty account; standard only with Loyalty Management.", "packages": 2, "read_by": 2, "written_by": 0, "write_actions": [], "fields_used": 5}, {"object": "AccountBankData__c", "custom": true, "domain": "Customers & partners", "standard_target": "–", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Bank details; no standard object. Candidate for Shield Platform Encryption; replace delete+insert with upsert.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["DELETE", "INSERT"], "fields_used": 10}, {"object": "AccountTeamMember", "custom": false, "domain": "Customers & partners", "standard_target": "AccountTeamMember", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 3}, {"object": "AssignmentPostal__c", "custom": true, "domain": "Service execution", "standard_target": "ServiceTerritory (postal-code coverage)", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Postal-code ranges to users; territory coverage in Field Service or Enterprise Territory Management.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 5}, {"object": "Case", "custom": false, "domain": "Customers & partners", "standard_target": "Case", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["UPDATE"], "fields_used": 15}, {"object": "ContentDocument", "custom": false, "domain": "Communication & documents", "standard_target": "ContentDocument", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object (Files).", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 0}, {"object": "ContentDocumentLink", "custom": false, "domain": "Communication & documents", "standard_target": "ContentDocumentLink", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object (Files).", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 0}, {"object": "MailPrintJob__c", "custom": true, "domain": "Communication & documents", "standard_target": "Platform Event trigger instead of polled queue", "fit": "Medium", "recommendation": "Adopt standard feature", "licence": "", "rationale": "Print job queue for Speos built on WorkOrder; keep the object, publish an event instead of polling.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["UPDATE"], "fields_used": 24}, {"object": "OfferItem__c", "custom": true, "domain": "Sales", "standard_target": "QuoteLineItem", "fit": "Medium", "recommendation": "Replace with standard", "licence": "", "rationale": "Offer lines with fulfilled quantity.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["INSERT", "UPDATE"], "fields_used": 6}, {"object": "PartsReturnHeader__c", "custom": true, "domain": "Parts & logistics", "standard_target": "ReturnOrder / ReturnOrderLineItem", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Parts return to warehouse.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 16}, {"object": "SCAccountRole__c", "custom": true, "domain": "Customers & partners", "standard_target": "AccountContactRelation / AccountTeamMember", "fit": "Medium", "recommendation": "Replace with standard", "licence": "", "rationale": "Account partner roles.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 4}, {"object": "SCInventoryItem__c", "custom": true, "domain": "Parts & logistics", "standard_target": "ProductItem / ProductItemTransaction", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Counted items with ERP result.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["UPDATE"], "fields_used": 8}, {"object": "SCMaterialReplenishment__c", "custom": true, "domain": "Parts & logistics", "standard_target": "ProductRequest / ProductRequestLineItem", "fit": "High", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Replenishment requisition with transaction ID.", "packages": 1, "read_by": 0, "written_by": 1, "write_actions": ["INSERT", "UPDATE"], "fields_used": 5}, {"object": "SCNotification__c", "custom": true, "domain": "Service execution", "standard_target": "Case or Custom Notifications (to confirm)", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Account notification with description and record type; purpose to confirm before mapping.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 4}, {"object": "SCPriceListItem__c", "custom": true, "domain": "Parts & logistics", "standard_target": "PricebookEntry", "fit": "Medium", "recommendation": "Replace with standard", "licence": "", "rationale": "Prices per article with validity dates; validity and price types stay custom fields.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["DELETE", "UPDATE", "UPSERT"], "fields_used": 14}, {"object": "SCPriceList__c", "custom": true, "domain": "Parts & logistics", "standard_target": "Pricebook2", "fit": "High", "recommendation": "Replace with standard", "licence": "", "rationale": "Price list header.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 2}, {"object": "SCResourceAssignment__c", "custom": true, "domain": "Service execution", "standard_target": "ServiceTerritoryMember", "fit": "Medium", "recommendation": "Replace with standard", "licence": "Field Service", "rationale": "Resource to stock and country assignment; ServiceTerritoryMember plus the resource's inventory Location.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 4}, {"object": "SalesVoucher__c", "custom": true, "domain": "Sales", "standard_target": "Voucher (Loyalty Management)", "fit": "Low", "recommendation": "Keep custom", "licence": "Loyalty Management", "rationale": "Sales vouchers; standard only with Loyalty Management.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["INSERT"], "fields_used": 10}, {"object": "UserRole", "custom": false, "domain": "Customers & partners", "standard_target": "UserRole", "fit": "n/a", "recommendation": "Already standard", "licence": "", "rationale": "Standard object.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 2}, {"object": "ZZ_CKL_Activation__c", "custom": true, "domain": "Service execution", "standard_target": "Field Service mobile flow + custom checklist object", "fit": "Low", "recommendation": "Keep custom", "licence": "", "rationale": "Activation checklist result.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 3}, {"object": "ZZ_CKL_FR_AccountAdditionalData__c", "custom": true, "domain": "Customers & partners", "standard_target": "Account custom fields", "fit": "Medium", "recommendation": "Keep custom", "licence": "", "rationale": "French additional account data; merge into Account fields.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 4}, {"object": "cmMessageTask__c", "custom": true, "domain": "Communication & documents", "standard_target": "Flow + Email Alerts / EmailMessage (e-mail); keep for print", "fit": "High", "recommendation": "Adopt standard feature", "licence": "", "rationale": "E-mail/letter message queue polled by Talend; e-mail can be sent natively, print (Speos/Esker) stays external.", "packages": 1, "read_by": 1, "written_by": 1, "write_actions": ["UPDATE"], "fields_used": 43}, {"object": "vcappsettings__c", "custom": true, "domain": "Integration technical", "standard_target": "Custom Metadata Type", "fit": "Medium", "recommendation": "Adopt standard feature", "licence": "", "rationale": "Application settings (e.g. ToSapSAPRelevant__c) read by integration.", "packages": 1, "read_by": 1, "written_by": 0, "write_actions": [], "fields_used": 1}], "patterns": [{"pattern": "Scheduled SOQL polling on status flags", "packages": 34, "today": "Talend queries objects every run for records in a status (e.g. Status__c = 5506, ERPStatus__c = none) and flips the flag afterwards.", "standard": "Change Data Capture or Platform Events (published by a record-triggered Flow) consumed by Integration Suite through a Salesforce event subscription, or an outbound Flow HTTP callout to an iFlow endpoint. Confirm event support in the Salesforce adapter available on the tenant.", "value": "Near-real-time SAP updates, no empty polling runs, fewer API calls, no status-flag bookkeeping fields.", "effort": "Medium"}, {"pattern": "Per-record lookup queries (RELOAD)", "packages": 36, "today": "142 lookups run one SOQL query per processed record.", "standard": "Relationship SOQL (parent/child in one query), Composite Graph API, or one bulk query cached in the iFlow.", "value": "Large reduction of API consumption and run time; avoids API limits as volumes grow.", "effort": "Low"}, {"pattern": "Record writes through the SOAP API", "packages": 42, "today": "225 tSalesforceOutput components write through the SOAP API, 214 of them with commit level 200.", "standard": "sObject Collections / Composite API for transactional updates; Bulk API 2.0 for master-data loads (materials, conditions, customers).", "value": "Fewer calls, all-or-nothing options, faster master-data loads.", "effort": "Low"}, {"pattern": "Delete-and-reload instead of upsert", "packages": 3, "today": "Bank data, the installer matrix and price list items are deleted and then reloaded (insert or upsert).", "standard": "Upsert on the existing external ID (ID2__c) via sObject Collections or Bulk API 2.0.", "value": "Keeps record IDs, history and related records; no gap where data is missing.", "effort": "Low"}, {"pattern": "Custom Apex SOAP web services", "packages": 11, "today": "VG_AT_Wartungsgarantie (VG_AT_Wartungsgarantie); WSAccountSequence (getNextAccountSeq); WSMaterialDelivery (process); WSMobileServiceGessat (addOrderRepairCodeRequest, addTimeReportRequest, updateOrderAssignmentRequest, updateOrderRequest).", "standard": "Standard REST / Composite on WorkOrder, TimeSheetEntry, AssignedResource and ProductTransfer; Auto Number field or Integration Suite Number Ranges instead of WSAccountSequence; AssetWarranty queries instead of VG_AT_Wartungsgarantie.", "value": "Less Apex to maintain and test on every Salesforce release; APIs versioned by Salesforce.", "effort": "Medium"}, {"pattern": "Custom Apex REST services", "packages": 2, "today": "ProductRegistration/registerSerialNumber, enrichProductRegistration and claimService called with OAuth password grant.", "standard": "Keep where they encapsulate business logic; otherwise standard REST on Asset / AssetWarranty. Move to OAuth client credentials.", "value": "Clearer API ownership; removes password-grant OAuth.", "effort": "Low"}, {"pattern": "Username/password logins, many integration users", "packages": 48, "today": "19 integration users log in with username, password and token over the SOAP API (API versions 46.0, 59.0).", "standard": "OAuth 2.0 client credentials or JWT bearer through Connected Apps, on Salesforce Integration User licences, with permission sets per interface family.", "value": "No stored passwords, least privilege, fewer licensed users, aligned with Salesforce MFA enforcement.", "effort": "Low"}, {"pattern": "E-mails sent by the integration", "packages": 9, "today": "Talend reads orders, attachments and message tasks and sends e-mails through the SMTP relay.", "standard": "Record-triggered Flow with Lightning e-mail templates, EmailMessage and Field Service Service Reports; the integration only handles print providers.", "value": "Takes e-mail handling out of the integration layer and off the SMTP relay; e-mails are logged on the record.", "effort": "Medium"}, {"pattern": "Legacy Attachments", "packages": 5, "today": "Documents are read from the legacy Attachment object.", "standard": "Salesforce Files (ContentVersion / ContentDocumentLink), already used in the org.", "value": "Lightning-compatible, versioned files; Attachment is no longer extended by Salesforce.", "effort": "Low"}, {"pattern": "Integration logs stored as Salesforce records", "packages": 28, "today": "Talend_Jobmonitor__c (run log with payloads) and SCInterfaceLog__c (payload per order) are written on every run.", "standard": "Integration Suite message monitoring, alerting and SAP Cloud ALM; keep only a business status and error text on the record.", "value": "Less data storage, no payloads in Salesforce, one monitoring place.", "effort": "Low"}, {"pattern": "Code mapping table in Salesforce", "packages": 5, "today": "epsEPSSAP__c maps EPS codes to SAP plant, movement type, sales organisation, order type.", "standard": "Integration Suite Value Mapping (maintained by integration, versioned and transported).", "value": "Mapping logic lives with the interface; Salesforce holds business data only.", "effort": "Low"}, {"pattern": "SAP data delivered as files", "packages": 9, "today": "Materials, product hierarchy, conditions, customers, finance and bank data, goods deliveries and order responses arrive as files and are loaded row by row.", "standard": "Event- or delta-based replication from SAP (IDoc/OData) into Integration Suite and Bulk API 2.0 upserts into Product2 / PricebookEntry / Account.", "value": "No file shares, faster loads, deltas instead of full files.", "effort": "Medium"}]}, "kpis": {"packages": 50, "jobs": 123, "components": 3231, "expressions": 9314, "logic": 1310, "lookups": 311, "reload": 142, "java": 1745, "routines": 4, "systems": 14, "connections": 530, "viaPI": 28, "piSoap": 21, "piFile": 7, "sfPackages": 49, "sfUsers": 19, "sfObjects": 77, "sfWritten": 26, "shares": 30, "decision": 10, "sfm_objects": 63, "sfm_custom": 52, "sfm_replace": 29, "sfm_high": 15, "sfm_pk": 44}, "landscape": [{"id": "sf", "label": "Salesforce", "sub": "data API", "route": "Direct", "packages": 48, "adapter": "HTTP · Salesforce REST · OAuth2", "connectivity": "Internet", "channels": "SOAP API query / update / upsert / insert / delete"}, {"id": "apex", "label": "Salesforce Apex", "sub": "4 SOAP classes + REST", "route": "Direct", "packages": 13, "adapter": "SOAP / HTTP · OAuth2", "connectivity": "Internet", "channels": "Apex SOAP web services, Apex REST"}, {"id": "mon", "label": "Talend_Jobmonitor__c", "sub": "run monitoring", "route": "Direct", "packages": 29, "adapter": "HTTP · Salesforce REST (or Cloud ALM)", "connectivity": "Internet", "channels": "Upsert per run"}, {"id": "pisoap", "label": "SAP ERP via PI", "sub": "SOAP sync / async", "route": "SAP PI", "packages": 21, "adapter": "SOAP / HTTP → PI (interim)", "connectivity": "Cloud Connector", "channels": "7 PI service interfaces"}, {"id": "pifile", "label": "SAP ERP via PI", "sub": "file drop P:\\Services\\xi", "route": "SAP PI", "packages": 7, "adapter": "SFTP sender (interim)", "connectivity": "Cloud Connector", "channels": "PI file receiver drops"}, {"id": "gessat", "label": "Gessat", "sub": "MySQL + FTP", "route": "Direct", "packages": 4, "adapter": "JDBC · FTP", "connectivity": "Cloud Connector", "channels": "JDBC select/update, FTP put"}, {"id": "mail", "label": "E-mail recipients", "sub": "SMTP relay", "route": "Direct", "packages": 9, "adapter": "Mail receiver", "connectivity": "Cloud Connector", "channels": "SMTP to customers and finance"}, {"id": "speos", "label": "Speos", "sub": "print & mail provider", "route": "Direct", "packages": 1, "adapter": "SFTP receiver", "connectivity": "Internet (allow-list IPs)", "channels": "SFTP"}, {"id": "partner", "label": "Partner file exchanges", "sub": "GB · ES · IT staging", "route": "File share", "packages": 3, "adapter": "SFTP sender / receiver", "connectivity": "Cloud Connector", "channels": "Files via FTP staging share"}, {"id": "shares", "label": "File shares", "sub": "reports · drops · SAP FTP", "route": "File share", "packages": 11, "adapter": "SFTP receiver / sender", "connectivity": "Cloud Connector", "channels": "Report files, internal drops, SAP via FTP share"}], "routes": [{"route": "Direct", "packages": 50, "connections": 434}, {"route": "SAP PI", "packages": 28, "connections": 43}, {"route": "File share", "packages": 14, "connections": 24}], "adapters": [{"adapter": "HTTP · Salesforce REST API · OAuth2", "connectivity": "Internet", "packages": 48}, {"adapter": "HTTP · Salesforce REST (Talend_Jobmonitor__c)", "connectivity": "Internet", "packages": 27}, {"adapter": "SOAP / HTTP receiver to the PI SOAP adapter (interim)", "connectivity": "Cloud Connector", "packages": 21}, {"adapter": "JDBC receiver, or Integration Suite Value Mapping (preferred)", "connectivity": "Cloud Connector", "packages": 13}, {"adapter": "SFTP receiver", "connectivity": "Cloud Connector", "packages": 12}, {"adapter": "SOAP 1.x receiver", "connectivity": "Internet", "packages": 11}, {"adapter": "Mail receiver", "connectivity": "Cloud Connector", "packages": 9}, {"adapter": "SFTP sender", "connectivity": "Cloud Connector", "packages": 8}, {"adapter": "SFTP sender on the PI drop folder (interim)", "connectivity": "Cloud Connector", "packages": 7}, {"adapter": "HTTP · Apex REST · OAuth2", "connectivity": "Internet", "packages": 2}, {"adapter": "JDBC receiver", "connectivity": "Cloud Connector", "packages": 2}, {"adapter": "FTP receiver", "connectivity": "Cloud Connector", "packages": 2}, {"adapter": "SFTP receiver", "connectivity": "Internet", "packages": 1}], "families": [{"family": "Salesforce → SAP ERP (via PI)", "Simple": 6, "Medium": 6, "Complex": 3, "Very complex": 6, "total": 21}, {"family": "Salesforce → E-mail recipients", "Simple": 5, "Medium": 4, "Complex": 0, "Very complex": 0, "total": 9}, {"family": "SAP ERP (via PI) → Salesforce", "Simple": 0, "Medium": 4, "Complex": 2, "Very complex": 0, "total": 6}, {"family": "Partner files → Salesforce Apex", "Simple": 1, "Medium": 1, "Complex": 0, "Very complex": 0, "total": 2}, {"family": "Gessat → Salesforce Apex", "Simple": 0, "Medium": 0, "Complex": 2, "Very complex": 0, "total": 2}, {"family": "Internal file drop → Salesforce", "Simple": 1, "Medium": 1, "Complex": 0, "Very complex": 0, "total": 2}, {"family": "Partner files → Salesforce", "Simple": 1, "Medium": 0, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "SAP ERP (via PI) → Salesforce Apex", "Simple": 0, "Medium": 0, "Complex": 1, "Very complex": 0, "total": 1}, {"family": "SAP ERP (file share) → Gessat", "Simple": 1, "Medium": 0, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "Salesforce → (none)", "Simple": 1, "Medium": 0, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "Salesforce → Report files", "Simple": 0, "Medium": 1, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "Salesforce → Gessat", "Simple": 1, "Medium": 0, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "Salesforce → Speos", "Simple": 0, "Medium": 1, "Complex": 0, "Very complex": 0, "total": 1}, {"family": "Salesforce → Salesforce", "Simple": 1, "Medium": 0, "Complex": 0, "Very complex": 0, "total": 1}], "bands": {"Simple": 18, "Medium": 18, "Complex": 8, "Very complex": 6}, "approach": {"Simple": "Migrate", "Medium": "Adapt", "Complex": "Rework", "Very complex": "Redesign"}, "sfObjects": [{"object": "SCOrder__c", "read": 19, "write": 17, "actions": "UPDATE"}, {"object": "Talend_Jobmonitor__c", "read": 0, "write": 28, "actions": "UPSERT"}, {"object": "Account", "read": 15, "write": 11, "actions": "UPDATE, UPSERT"}, {"object": "SCOrderRole__c", "read": 15, "write": 9, "actions": "UPDATE"}, {"object": "SCMaterialMovement__c", "read": 8, "write": 9, "actions": "UPDATE, UPSERT"}, {"object": "SCOrderLine__c", "read": 9, "write": 7, "actions": "UPDATE"}, {"object": "SCArticle__c", "read": 13, "write": 2, "actions": "UPDATE, UPSERT"}, {"object": "RecordType", "read": 13, "write": 0, "actions": ""}, {"object": "Brand__c", "read": 12, "write": 0, "actions": ""}, {"object": "SCArticleDetail__c", "read": 10, "write": 2, "actions": "UPDATE, UPSERT"}, {"object": "SCOrderItem__c", "read": 11, "write": 0, "actions": ""}, {"object": "SCOrderline__c", "read": 7, "write": 4, "actions": "UPDATE"}], "services": [{"kind": "SAP PI", "service": "SI_OUT_CustomerMaster_ASYNC", "mode": "async", "operations": "–", "packages": 8}, {"kind": "SAP PI", "service": "SI_OUT_EPSRequestPaymentDetails_SYNC", "mode": "sync", "operations": "SI_EPS_REQUEST_PAYMENT_DETAILS", "packages": 2}, {"kind": "SAP PI", "service": "SI_OUT_EPS_Interfaces_SYNC", "mode": "sync", "operations": "createGoodsMovement_sync_out, createGoodsRec_sync_out, createInventoryCounting_sync_out", "packages": 5}, {"kind": "SAP PI", "service": "SI_OUT_Orders_ASYNC", "mode": "async", "operations": "–", "packages": 8}, {"kind": "SAP PI", "service": "SI_OUT_SalesContract_SYNC", "mode": "sync", "operations": "–", "packages": 1}, {"kind": "SAP PI", "service": "SI_OUT_SalesDocument_SYNC", "mode": "sync", "operations": "cancel, create", "packages": 2}, {"kind": "SAP PI", "service": "SI_OUT_SalesOrder_SYNC", "mode": "sync", "operations": "getStatus", "packages": 2}, {"kind": "Salesforce Apex", "service": "VG_AT_Wartungsgarantie", "mode": "request/response", "operations": "VG_AT_Wartungsgarantie", "packages": 2}, {"kind": "Salesforce Apex", "service": "WSAccountSequence", "mode": "request/response", "operations": "getNextAccountSeq", "packages": 7}, {"kind": "Salesforce Apex", "service": "WSMaterialDelivery", "mode": "request/response", "operations": "process", "packages": 2}, {"kind": "Salesforce Apex", "service": "WSMobileServiceGessat", "mode": "request/response", "operations": "addOrderRepairCodeRequest, addTimeReportRequest, updateOrderAssignmentRequest, updateOrderRequest", "packages": 2}], "packages": [{"package": "SF_PI_ServiceOrderGG_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 484, "drivers": ["Mapping logic", "Lookups", "Custom Java"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 0, "disposition": "Consolidate into SF_PI_ServiceOrder_Master_New_2.0 (pending decision)", "wave": "Wave 3 (after decision)", "expressions": 1343, "lookups": 34, "java": 109, "jobs": 6}, {"package": "SF_PI_ServiceOrder_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 442, "drivers": ["Mapping logic", "Lookups", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 0, "disposition": "Consolidate into SF_PI_ServiceOrder_Master_New_2.0 (pending decision)", "wave": "Wave 3 (after decision)", "expressions": 1185, "lookups": 26, "java": 71, "jobs": 8}, {"package": "SF_PI_ServiceOrder_Master_New_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 413, "drivers": ["Mapping logic", "Lookups", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 2, "disposition": "Build", "wave": "Wave 3 (after decision)", "expressions": 1058, "lookups": 23, "java": 73, "jobs": 9}, {"package": "SF_PI_ServiceCreditOrder_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 345, "drivers": ["Mapping logic", "Lookups", "Components"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 0, "disposition": "Consolidate into SF_PI_ServiceCreditOrder_Master_New_2.0 (pending decision)", "wave": "Wave 3 (after decision)", "expressions": 872, "lookups": 18, "java": 68, "jobs": 5}, {"package": "SF_PI_ServiceCreditOrder_Master_New_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 335, "drivers": ["Mapping logic", "Lookups", "Components"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 1, "disposition": "Build", "wave": "Wave 3 (after decision)", "expressions": 827, "lookups": 17, "java": 70, "jobs": 5}, {"package": "SF_PI_ServiceContractOrder_Master_2.1", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Very complex", "approach": "Redesign", "score": 295, "drivers": ["Mapping logic", "Lookups", "Project routines"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 3", "expressions": 440, "lookups": 19, "java": 62, "jobs": 5}, {"package": "Gessat_SF_ServiceOrder_Error_1.0", "family": "Gessat → Salesforce Apex", "trigger": "Database poll", "band": "Complex", "approach": "Rework", "score": 229, "drivers": ["Mapping logic", "Lookups", "SOAP services"], "systems": ["Gessat call database (MySQL webex)", "Local / temp folder on Talend server", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build as reprocessing iFlow", "wave": "Wave 3", "expressions": 469, "lookups": 17, "java": 6, "jobs": 2}, {"package": "Gessat_SF_ServiceOrder_Master_1.0", "family": "Gessat → Salesforce Apex", "trigger": "Database poll", "band": "Complex", "approach": "Rework", "score": 227, "drivers": ["Mapping logic", "Lookups", "SOAP services"], "systems": ["Gessat call database (MySQL webex)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 2, "disposition": "Build", "wave": "Wave 3", "expressions": 460, "lookups": 16, "java": 6, "jobs": 2}, {"package": "SF_PI_SalesOfferOrder_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Complex", "approach": "Rework", "score": 211, "drivers": ["Lookups", "Mapping logic", "Custom Java"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 3", "expressions": 352, "lookups": 18, "java": 57, "jobs": 2}, {"package": "SF_PI_SalesOrder_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Complex", "approach": "Rework", "score": 190, "drivers": ["Lookups", "Mapping logic", "Custom Java"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 3", "expressions": 295, "lookups": 16, "java": 54, "jobs": 2}, {"package": "PI_SF_Material_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Complex", "approach": "Rework", "score": 186, "drivers": ["Mapping logic", "Lookups", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 5, "disposition": "Build", "wave": "Wave 3", "expressions": 287, "lookups": 13, "java": 30, "jobs": 6}, {"package": "PI_SF_GoodsDelivery_Master_2.0", "family": "SAP ERP (via PI) → Salesforce Apex", "trigger": "File poll", "band": "Complex", "approach": "Rework", "score": 153, "drivers": ["Lookups", "Custom Java", "Mapping logic"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 3, "disposition": "Build", "wave": "Wave 3", "expressions": 130, "lookups": 9, "java": 80, "jobs": 4}, {"package": "SF_PI_BusinessAccount_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Complex", "approach": "Rework", "score": 148, "drivers": ["Lookups", "Mapping logic", "Project routines"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 3", "expressions": 173, "lookups": 15, "java": 15, "jobs": 2}, {"package": "PI_SF_Ordrsp_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Complex", "approach": "Rework", "score": 117, "drivers": ["Lookups", "Mapping logic", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 3, "disposition": "Build", "wave": "Wave 3", "expressions": 92, "lookups": 7, "java": 28, "jobs": 4}, {"package": "SF_PI_GoodsREPLREQ_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 108, "drivers": ["Mapping logic", "Lookups", "End systems"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 209, "lookups": 5, "java": 11, "jobs": 3}, {"package": "PI_SF_Condition_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 93, "drivers": ["Lookups", "Mapping logic", "End systems"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 56, "lookups": 6, "java": 16, "jobs": 2}, {"package": "SF_PI_GoodsReturn_Master_2.1", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 87, "drivers": ["Mapping logic", "Lookups", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": ["Contains test/SIT jobs: exclude from scope"], "iflows": 1, "disposition": "Build", "wave": "Wave 2 (after decision)", "expressions": 120, "lookups": 3, "java": 18, "jobs": 3}, {"package": "PI_SF_FinanceInfo_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 84, "drivers": ["Lookups", "File handling", "End systems"], "systems": ["SAP ERP", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 27, "lookups": 5, "java": 11, "jobs": 2}, {"package": "SF_EX_ProductRegistration_FR_Master_2.0", "family": "Salesforce → Report files", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 81, "drivers": ["Custom Java", "File handling", "End systems"], "systems": ["Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 3, "lookups": 1, "java": 160, "jobs": 2}, {"package": "SF_PI_GoodsInventory_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 79, "drivers": ["Mapping logic", "End systems", "Write operations"], "systems": ["Report / extract files (archive share)", "SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 91, "lookups": 2, "java": 12, "jobs": 2}, {"package": "SF_Mail_MessageTask_Master_2.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 72, "drivers": ["Custom Java", "End systems", "Lookups"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 10, "lookups": 1, "java": 145, "jobs": 2}, {"package": "SF_Mail_OrderAttachment_Master_1.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 70, "drivers": ["Custom Java", "Lookups", "End systems"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 4, "lookups": 3, "java": 121, "jobs": 2}, {"package": "PI_SF_Wholesaler_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 67, "drivers": ["Mapping logic", "Lookups", "File handling"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 94, "lookups": 3, "java": 1, "jobs": 2}, {"package": "SF_PI_PersonAccount_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 66, "drivers": ["Mapping logic", "SOAP services", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 2, "disposition": "Build", "wave": "Wave 2", "expressions": 107, "lookups": 1, "java": 17, "jobs": 3}, {"package": "SF_Mail_APPPrintingTemplates_CH_2.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 65, "drivers": ["Custom Java", "Lookups", "End systems"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 15, "lookups": 3, "java": 102, "jobs": 1}, {"package": "SF_Mail_APPPrintingTemplates_2.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 64, "drivers": ["Custom Java", "Lookups", "End systems"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 11, "lookups": 2, "java": 120, "jobs": 1}, {"package": "SF_BAPI_SERVICEORDER_GETSTATUS_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 58, "drivers": ["Custom Java", "Mapping logic", "SOAP services"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 88, "lookups": 0, "java": 41, "jobs": 2}, {"package": "SF_PI_PaymentDetail_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 58, "drivers": ["Mapping logic", "End systems", "Lookups"], "systems": ["Report / extract files (archive share)", "SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 64, "lookups": 2, "java": 1, "jobs": 2}, {"package": "PI_SF_Bankaccount_Master_2.0", "family": "SAP ERP (via PI) → Salesforce", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 57, "drivers": ["File handling", "Lookups", "Write operations"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 27, "lookups": 2, "java": 11, "jobs": 2}, {"package": "EX_SF_Methisoft_IT_Master_2.0", "family": "Partner files → Salesforce Apex", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 55, "drivers": ["End systems", "File handling", "Mapping logic"], "systems": ["Partner file exchange IT (accountsmissing)", "Partner file exchange IT (whitelist)", "Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 23, "lookups": 1, "java": 14, "jobs": 2}, {"package": "SF_SFTP_MailPrint_Speos_Master_0.1", "family": "Salesforce → Speos", "trigger": "Salesforce query (scheduled)", "band": "Medium", "approach": "Adapt", "score": 51, "drivers": ["Mapping logic", "Lookups", "Custom Java"], "systems": ["Salesforce", "Speos (print & mail service provider)"], "viaPI": false, "decision": ["Draft version (0.x): confirm it runs in production"], "iflows": 1, "disposition": "Build", "wave": "Wave 2 (after decision)", "expressions": 46, "lookups": 2, "java": 31, "jobs": 2}, {"package": "SAP_SF_MaterialReplacedBy_2.0", "family": "Internal file drop → Salesforce", "trigger": "File poll", "band": "Medium", "approach": "Adapt", "score": 50, "drivers": ["Lookups", "End systems", "Project routines"], "systems": ["Internal file drop (sender to confirm)", "Salesforce", "Value mapping database (MySQL talend_tdi)"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 2", "expressions": 4, "lookups": 3, "java": 7, "jobs": 1}, {"package": "SF_EX_ProdReg_ES_2.0", "family": "Salesforce → E-mail recipients", "trigger": "File poll", "band": "Simple", "approach": "Migrate", "score": 43, "drivers": ["End systems", "Custom Java", "Lookups"], "systems": ["E-mail recipients", "Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 29, "lookups": 2, "java": 26, "jobs": 1}, {"package": "EX_SF_CreateInstallerMatrixES_Master_2.0", "family": "Partner files → Salesforce", "trigger": "File poll", "band": "Simple", "approach": "Migrate", "score": 42, "drivers": ["File handling", "Lookups", "End systems"], "systems": ["Partner file exchange ES (in)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 8, "lookups": 2, "java": 0, "jobs": 2}, {"package": "SF_PI_GoodsMovement_Master_2.1", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 41, "drivers": ["Mapping logic", "Project routines", "End systems"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 42, "lookups": 0, "java": 7, "jobs": 2}, {"package": "SAP_Gessat_Optimprices_1.0", "family": "SAP ERP (file share) → Gessat", "trigger": "File poll", "band": "Simple", "approach": "Migrate", "score": 40, "drivers": ["Custom Java", "End systems", "File handling"], "systems": ["Gessat (field service partner)", "Report / extract files (archive share)", "SAP ERP"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 3, "lookups": 0, "java": 48, "jobs": 1}, {"package": "SF_Mail_CreditReport_0.1", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 40, "drivers": ["End systems", "Lookups", "Mapping logic"], "systems": ["E-mail recipients", "Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": ["Draft version (0.x): confirm it runs in production"], "iflows": 1, "disposition": "Build", "wave": "Wave 1 (after decision)", "expressions": 43, "lookups": 3, "java": 2, "jobs": 1}, {"package": "SF_PI_GoodsReceive_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 40, "drivers": ["Mapping logic", "Project routines", "End systems"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": ["Parallel variant of another package: confirm which one is live"], "iflows": 1, "disposition": "Build", "wave": "Wave 1 (after decision)", "expressions": 37, "lookups": 0, "java": 7, "jobs": 2}, {"package": "EX_SF_ClaimRegistration_GB_Master_2.0", "family": "Partner files → Salesforce Apex", "trigger": "File poll", "band": "Simple", "approach": "Migrate", "score": 38, "drivers": ["File handling", "End systems", "Jobs / sub-jobs"], "systems": ["Partner file exchange GB (cs-claims)", "Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 1, "lookups": 0, "java": 8, "jobs": 2}, {"package": "SAP_SF_ArticleHierarchy_Master_2.0", "family": "Internal file drop → Salesforce", "trigger": "File poll", "band": "Simple", "approach": "Migrate", "score": 38, "drivers": ["End systems", "File handling", "Mapping logic"], "systems": ["Internal file drop (sender to confirm)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 21, "lookups": 1, "java": 14, "jobs": 2}, {"package": "SF_PI_GoodsReceive_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 35, "drivers": ["Mapping logic", "Project routines", "End systems"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 0, "disposition": "Consolidate into SF_PI_GoodsReceive_Master_2.0 (pending decision)", "wave": "Wave 1", "expressions": 37, "lookups": 0, "java": 7, "jobs": 1}, {"package": "SF_EX_ProdReg_SAT_ES_2.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 33, "drivers": ["End systems", "Mapping logic", "Lookups"], "systems": ["E-mail recipients", "Report / extract files (archive share)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 22, "lookups": 1, "java": 5, "jobs": 1}, {"package": "SF_Mail_APPPrintingTemplates_AT_1.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 33, "drivers": ["Lookups", "Custom Java", "End systems"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 7, "lookups": 2, "java": 30, "jobs": 1}, {"package": "SF_SF_SalesVoucher_AT_2.0", "family": "Salesforce → Salesforce", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 33, "drivers": ["Lookups", "Write operations", "Components"], "systems": ["Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 13, "lookups": 5, "java": 3, "jobs": 1}, {"package": "SF_PI_SalesCancelOrder_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 30, "drivers": ["End systems", "SOAP services", "Mapping logic"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 20, "lookups": 0, "java": 2, "jobs": 2}, {"package": "SF_Gessat_Engineer_1.0", "family": "Salesforce → Gessat", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 27, "drivers": ["Lookups", "End systems", "Mapping logic"], "systems": ["Gessat (field service partner)", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 10, "lookups": 2, "java": 8, "jobs": 1}, {"package": "SF_PI_BillPaymentFeedback_Sales_Master_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 25, "drivers": ["End systems", "SOAP services", "Jobs / sub-jobs"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 17, "lookups": 0, "java": 1, "jobs": 2}, {"package": "SF_BAPI_GETDELIVERY_FR_2.0", "family": "Salesforce → SAP ERP (via PI)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 17, "drivers": ["End systems", "SOAP services", "Write operations"], "systems": ["SAP ERP", "Salesforce"], "viaPI": true, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 5, "lookups": 0, "java": 0, "jobs": 1}, {"package": "SF_EX_CaseManagement_1.0", "family": "Salesforce → E-mail recipients", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 16, "drivers": ["End systems", "Mapping logic", "Write operations"], "systems": ["E-mail recipients", "Salesforce"], "viaPI": false, "decision": [], "iflows": 1, "disposition": "Build", "wave": "Wave 1", "expressions": 17, "lookups": 0, "java": 0, "jobs": 1}, {"package": "SF_EX_LoyaltyStatementLetters_DE_0.1", "family": "Salesforce → (none)", "trigger": "Salesforce query (scheduled)", "band": "Simple", "approach": "Migrate", "score": 3, "drivers": ["Custom Java"], "systems": ["Salesforce"], "viaPI": false, "decision": ["Draft version (0.x): confirm it runs in production"], "iflows": 1, "disposition": "Build", "wave": "Wave 1 (after decision)", "expressions": 0, "lookups": 0, "java": 9, "jobs": 1}], "target": {"totals": {"min": 44, "expected": 58, "max": 68}, "byType": [{"type": "Main", "min": 40, "expected": 43, "max": 43}, {"type": "Dispatcher", "min": 3, "expected": 3, "max": 3}, {"type": "Loader (ProcessDirect)", "min": 0, "expected": 8, "max": 8}, {"type": "Reusable (ProcessDirect)", "min": 1, "expected": 3, "max": 8}, {"type": "Reprocessing", "min": 0, "expected": 1, "max": 1}, {"type": "Variant (not built)", "min": 0, "expected": 0, "max": 5}], "special": [{"iflow": "Talend_Gessat_SF_ServiceOrder_Error", "type": "Reprocessing", "min": 0, "expected": 1, "max": 1, "notes": "Re-selects failed records and calls the core flow of Gessat_SF_ServiceOrder_Master_1.0 via ProcessDirect; minimum: JMS retry in the core iFlow."}, {"iflow": "Talend_PD_Gessat_SF_ServiceOrder", "type": "Reusable (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Core of Gessat_SF_ServiceOrder (with its sub-jobs) exposed via ProcessDirect for 1 other packages; minimum: second integration process inside the main iFlow."}, {"iflow": "Talend_PI_SF_GoodsDelivery_Dispatcher", "type": "Dispatcher", "min": 1, "expected": 1, "max": 1, "notes": "Polls the inbound file, splits it and routes each part via ProcessDirect."}, {"iflow": "Talend_PI_SF_GoodsDelivery_Sales", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_GoodsDelivery."}, {"iflow": "Talend_PI_SF_GoodsDelivery_Service", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_GoodsDelivery."}, {"iflow": "Talend_PI_SF_Material_Dispatcher", "type": "Dispatcher", "min": 1, "expected": 1, "max": 1, "notes": "Polls the inbound file, splits it and routes each part via ProcessDirect."}, {"iflow": "Talend_PI_SF_Material_Article", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Material."}, {"iflow": "Talend_PI_SF_Material_ArticleDesc", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Material."}, {"iflow": "Talend_PI_SF_Material_ArticleDetail", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Material."}, {"iflow": "Talend_PI_SF_Material_SalesTextArea", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Material."}, {"iflow": "Talend_PI_SF_Ordrsp_Dispatcher", "type": "Dispatcher", "min": 1, "expected": 1, "max": 1, "notes": "Polls the inbound file, splits it and routes each part via ProcessDirect."}, {"iflow": "Talend_PI_SF_SalesOrdrsp", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Ordrsp."}, {"iflow": "Talend_PI_SF_ServiceOrdrsp", "type": "Loader (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Minimum: local process inside Talend_PI_SF_Ordrsp."}, {"iflow": "Talend_SF_EX_LoyaltyStatementLetters_DE", "type": "Main", "min": 0, "expected": 1, "max": 1, "notes": "Draft (0.x): retire if not live"}, {"iflow": "Talend_SF_Mail_CreditReport", "type": "Main", "min": 0, "expected": 1, "max": 1, "notes": "Draft (0.x): retire if not live"}, {"iflow": "Talend_SF_PI_GoodsREPLREQ", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Steps SF_PI_GoodsREPLREQ, SF_SF_GoodsREPLTransactionID as local processes."}, {"iflow": "(variant of Talend_SF_PI_GoodsReceive)", "type": "Variant (not built)", "min": 0, "expected": 0, "max": 1, "notes": "Parallel variant of SF_PI_GoodsReceive_Master_2.0; consolidated into that iFlow once the live variant is confirmed."}, {"iflow": "Talend_SF_PI_GoodsReceive", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Primary of variant family: SF_PI_GoodsReceive_2.0"}, {"iflow": "Talend_SF_PI_GoodsReturn", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Excluded test job(s): SF_PI_GoodsReturn_SIT"}, {"iflow": "Talend_PD_SF_PI_PersonAccount", "type": "Reusable (ProcessDirect)", "min": 0, "expected": 1, "max": 1, "notes": "Core of SF_PI_PersonAccount (with its sub-jobs) exposed via ProcessDirect for 6 other packages; minimum: second integration process inside the main iFlow."}, {"iflow": "(variant of Talend_SF_PI_ServiceCreditOrder)", "type": "Variant (not built)", "min": 0, "expected": 0, "max": 1, "notes": "Parallel variant of SF_PI_ServiceCreditOrder_Master_New_2.0; consolidated into that iFlow once the live variant is confirmed."}, {"iflow": "Talend_SF_PI_ServiceCreditOrder", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Primary of variant family: SF_PI_ServiceCreditOrder_Master_2.0"}, {"iflow": "(variant of Talend_SF_PI_ServiceOrder)", "type": "Variant (not built)", "min": 0, "expected": 0, "max": 2, "notes": "Parallel variant of SF_PI_ServiceOrder_Master_New_2.0; consolidated into that iFlow once the live variant is confirmed. Contract flow SF_PI_ServiceContractOrderGG to be reconciled with SF_PI_ServiceContractOrder."}, {"iflow": "(variant of Talend_SF_PI_ServiceOrder)", "type": "Variant (not built)", "min": 0, "expected": 0, "max": 1, "notes": "Parallel variant of SF_PI_ServiceOrder_Master_New_2.0; consolidated into that iFlow once the live variant is confirmed."}, {"iflow": "Talend_SF_PI_ServiceOrder", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Steps SF_PI_ServiceOrder_New, SF_SF_WartGarantie_AT, ServiceOrder_GB_Status, ServiceOrder_LCodeValidation_AT as local processes. Primary of variant family: SF_PI_ServiceOrderGG_Master_2.0, SF_PI_ServiceOrder_Master_2.0"}, {"iflow": "Talend_SF_SF_GoodwillCheck_ServiceOrder", "type": "Main", "min": 1, "expected": 1, "max": 1, "notes": "Independent root job scheduled on its own."}, {"iflow": "Talend_SF_SFTP_MailPrint_Speos", "type": "Main", "min": 0, "expected": 1, "max": 1, "notes": "Draft (0.x): retire if not live"}, {"iflow": "Talend_PD_Checkpoint_ServiceOrder", "type": "Reusable (ProcessDirect)", "min": 1, "expected": 1, "max": 6, "notes": "Called by 6 packages in 3 flow families; 2 variant(s) to reconcile. Maximum: copied into every caller."}], "rules": ["R1  One iFlow per business flow. A master job and the child it iterates become one iFlow", "R2  Parallel variants (…_New, …GG, _Master vs non-master copies) are one flow: built once in", "R3  A master that splits one inbound file and hands the parts to several loader jobs becomes a", "R4  A sub-job with side effects called from several different business flows becomes one", "R5  An extra root job (scheduled on its own) is its own iFlow.", "R6  Error-reprocessing packages become a small reprocessing iFlow calling the core flow", "R7  Draft packages (root version 0.x) count in expected and maximum only; test/SIT jobs are excluded."]}, "findings": [{"area": "Estate hygiene", "severity": "High", "finding": "Parallel variants of the same interface (…_New, …GG, …_Master and non-master copies)", "packages": 6, "action": "Confirm which variant is live per TMC task; migrate one, retire the others."}, {"area": "Estate hygiene", "severity": "Medium", "finding": "Draft or pre-release versions (0.x) in the export", "packages": 3, "action": "Confirm whether these run in production before sizing them."}, {"area": "Estate hygiene", "severity": "Medium", "finding": "Test / SIT / error-reprocessing jobs packaged alongside production jobs", "packages": 2, "action": "Exclude from scope or migrate as operational tooling."}, {"area": "Reuse", "severity": "High", "finding": "Shared sub-jobs exist in diverging copies across packages", "packages": 9, "action": "Reconcile the variants, then build each once as a ProcessDirect iFlow."}, {"area": "Logic", "severity": "Low", "finding": "Project routines used (source received with the Talend project delivery)", "packages": 21, "action": "Port each routine as a Groovy helper, later a shared Script Collection. PadLeft/PadRight throw a NullPointerException on a null input, which fails the row or the whole file."}, {"area": "Architecture", "severity": "High", "finding": "Hidden dependency: a project routine opens its own MySQL connection to read a mapping table", "packages": 13, "action": "Export the datamap table and move the mappings to Integration Suite value mappings; otherwise every rebuilt iFlow needs a JDBC connection to this database through the Cloud Connector."}, {"area": "Security", "severity": "High", "finding": "Database credentials hardcoded in project routine source (TDIData)", "packages": 13, "action": "Rotate the database password; it is readable by anyone with the Talend project or a built job."}, {"area": "Security", "severity": "Medium", "finding": "Routine builds its SQL by string concatenation (injection risk)", "packages": 13, "action": "Parameterise the query, or retire it with the move to value mappings."}, {"area": "Logic", "severity": "Medium", "finding": "Substantial custom Java (> 40 lines)", "packages": 16, "action": "Review Java for business logic that must be ported to Groovy."}, {"area": "Logic", "severity": "Medium", "finding": "Per-row RELOAD lookups (one query per record)", "packages": 36, "action": "Design for API limits: bulk queries or caching in the iFlow."}, {"area": "Portability", "severity": "High", "finding": "Local Windows paths and file shares used as integration transport", "packages": 30, "action": "Replace P:\\Services shares with SFTP (via Cloud Connector) or direct API calls."}, {"area": "Portability", "severity": "Medium", "finding": "Hardcoded environment details inside components (not in contexts)", "packages": 26, "action": "Externalise as iFlow parameters during migration."}, {"area": "Security", "severity": "Medium", "finding": "Basic-authentication technical user for SAP PI stored as job context", "packages": 21, "action": "Move to Security Material; consider certificate or OAuth where the SAP side allows."}, {"area": "Security", "severity": "Medium", "finding": "Salesforce username/password login (SOAP API) instead of OAuth", "packages": 48, "action": "Create Connected Apps and OAuth2 client-credentials artifacts per integration user."}, {"area": "Security", "severity": "Low", "finding": "OAuth client ID/secret and access tokens held in job contexts", "packages": 2, "action": "Move to Security Material (OAuth2 Client Credentials)."}, {"area": "Operations", "severity": "Medium", "finding": "Monitoring relies on the Salesforce object Talend_Jobmonitor__c", "packages": 28, "action": "Decide: keep writing Talend_Jobmonitor__c, or move to SAP Cloud ALM / MPL."}, {"area": "Operations", "severity": "Low", "finding": "No error handling (no tLogCatcher, tDie or monitor)", "packages": 18, "action": "Add exception subprocesses and alerting in Integration Suite."}, {"area": "Architecture", "severity": "Medium", "finding": "SAP reached through SAP PI; PI retirement changes the receiver", "packages": 21, "action": "Plan target SAP endpoints (IDoc/RFC/OData/SOAP) if PI is retired."}, {"area": "Architecture", "severity": "Low", "finding": "Salesforce Apex SOAP web services called from Talend", "packages": 11, "action": "Call the same Apex services via HTTP with OAuth; confirm WSDLs."}], "shared": [{"job": "SF_PI_PersonAccount", "packages": 7, "variants": 2}, {"job": "SF_SF_GetAccountNumber", "packages": 7, "variants": 2}, {"job": "Checkpoint_ServiceOrder", "packages": 6, "variants": 2}, {"job": "Gessat_SF_ServiceOrder", "packages": 2, "variants": 2}, {"job": "SF_PI_GoodsReceive", "packages": 2, "variants": 1}, {"job": "ServiceOrder_GB_Status", "packages": 2, "variants": 1}, {"job": "ServiceOrder_LCodeValidation_AT", "packages": 2, "variants": 2}, {"job": "SF_SF_WartGarantie_AT", "packages": 2, "variants": 2}, {"job": "SF_PI_ServiceOrder_New", "packages": 2, "variants": 2}], "asOf": "2026-10-14"}</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("data").textContent);
+  var BANDS = ["Simple", "Medium", "Complex", "Very complex"];
+  var BAND_VAR = {"Simple": "--b1", "Medium": "--b2", "Complex": "--b3", "Very complex": "--b4"};
+  var ROUTE_VAR = {"Direct": "--r-direct", "SAP PI": "--r-pi", "File share": "--r-share"};
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === "text") el.textContent = attrs[k];
+      else if (k === "style") el.setAttribute("style", attrs[k]);
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) el.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return el;
+  }
+  function s(tag, attrs, kids) {
+    var el = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === "text") el.textContent = attrs[k]; else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c) el.appendChild(c); });
+    return el;
+  }
+  function fill(v) { return "background:var(" + v + ")"; }
+
+  // ---------------------------------------------------------------- tooltip
+  var tt = document.getElementById("tt");
+  function tipRows(rows) {
+    tt.textContent = "";
+    rows.forEach(function (r) {
+      var line = h("div", {class: "tr"});
+      if (r.color) line.appendChild(h("i", {style: fill(r.color)}));
+      var box = h("div");
+      if (r.value !== undefined) box.appendChild(h("div", {class: "tv", text: String(r.value)}));
+      if (r.label) box.appendChild(h("div", {class: "tl", text: r.label}));
+      line.appendChild(box);
+      tt.appendChild(line);
+    });
+  }
+  function place(x, y) {
+    var w = tt.offsetWidth, hgt = tt.offsetHeight;
+    var left = Math.min(window.innerWidth - w - 8, x + 14), top = y + 14;
+    if (top + hgt > window.innerHeight - 8) top = y - hgt - 14;
+    tt.style.left = Math.max(8, left) + "px";
+    tt.style.top = Math.max(8, top) + "px";
+  }
+  function tip(el, rows) {
+    el.setAttribute("tabindex", "0");
+    el.addEventListener("pointermove", function (e) { tipRows(rows()); tt.hidden = false; place(e.clientX, e.clientY); });
+    el.addEventListener("pointerleave", function () { tt.hidden = true; });
+    el.addEventListener("focus", function () {
+      tipRows(rows()); tt.hidden = false;
+      var r = el.getBoundingClientRect(); place(r.left + r.width / 2, r.top + r.height / 2);
+    });
+    el.addEventListener("blur", function () { tt.hidden = true; });
+  }
+
+  function legend(target, items, kind) {
+    var el = document.getElementById(target);
+    items.forEach(function (it) {
+      el.appendChild(h("span", {}, [h("i", {class: kind || "", style: fill(it.color)}), it.label]));
+    });
+  }
+
+  // ---------------------------------------------------------------- HTML bar rows
+  function barRows(target, rows, max) {
+    var el = document.getElementById(target);
+    rows.forEach(function (r) {
+      var lab = h("div", {class: "lab"}, [r.label]);
+      if (r.small) lab.appendChild(h("small", {text: r.small}));
+      var track = h("div", {class: "track", role: "img", "aria-label": r.aria || (r.label + ": " + r.total)});
+      r.segs.forEach(function (sg) {
+        if (!sg.value) return;
+        var seg = h("div", {class: "seg", style: fill(sg.color) + ";width:" + (sg.value / max * 100) + "%"});
+        tip(seg, function () { return sg.tip; });
+        track.appendChild(seg);
+      });
+      el.appendChild(h("div", {class: "bar-row"}, [lab, track, h("div", {class: "val", text: r.valueText !== undefined ? r.valueText : String(r.total)})]));
+    });
+  }
+
+  // ---------------------------------------------------------------- legends
+  legend("route-legend", [{label: "Direct", color: "--r-direct"}, {label: "Through SAP PI", color: "--r-pi"}, {label: "File share / staging", color: "--r-share"}], "line");
+  legend("band-legend", BANDS.map(function (b) { return {label: b + " · " + D.approach[b], color: BAND_VAR[b]}; }));
+
+  // ---------------------------------------------------------------- landscape
+  (function () {
+    var W = 980, H = 560, cx = 490, cy = 280;
+    var pos = {
+      sf: [820, 90], apex: [820, 230], mon: [820, 370],
+      pisoap: [160, 90], pifile: [160, 230],
+      gessat: [140, 380], partner: [210, 490], mail: [410, 490], speos: [610, 490], shares: [810, 490]
+    };
+    var svg = s("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Landscape of end systems connected to Talend"});
+    var nodes = D.landscape;
+    nodes.forEach(function (n) {
+      var p = pos[n.id]; if (!p) return;
+      var dash = n.route === "File share" ? " dash" : "";
+      var mx = (p[0] + cx) / 2, my = (p[1] + cy) / 2;
+      svg.appendChild(s("path", {class: "edge" + dash, d: "M" + cx + "," + cy + " Q" + mx + "," + (p[1] < cy ? my - 10 : my + 10) + " " + p[0] + "," + p[1],
+        style: "stroke:var(" + ROUTE_VAR[n.route] + ")"}));
+    });
+    var hub = s("g", {class: "node"}, [
+      s("rect", {x: cx - 110, y: cy - 48, width: 220, height: 96, rx: 14, style: "fill:var(--talend-bg);stroke:var(--talend)"}),
+      s("text", {x: cx, y: cy - 12, "text-anchor": "middle", class: "t1", text: "Talend jobs"}),
+      s("text", {x: cx, y: cy + 10, "text-anchor": "middle", class: "t2", text: "TMC remote engine"}),
+      s("text", {x: cx, y: cy + 32, "text-anchor": "middle", class: "t3", style: "fill:var(--talend)", text: D.kpis.packages + " packages"})
+    ]);
+    tip(hub, function () { return [{value: D.kpis.packages + " packages", label: D.kpis.jobs + " jobs · " + D.kpis.connections + " connections"}]; });
+    svg.appendChild(hub);
+    nodes.forEach(function (n) {
+      var p = pos[n.id]; if (!p) return;
+      var w = n.id === "partner" || n.id === "mail" || n.id === "speos" || n.id === "shares" ? 184 : 196, hh = 76;
+      var g = s("g", {class: "node", "aria-label": n.label + ", " + n.sub + ", " + n.packages + " packages"}, [
+        s("rect", {x: p[0] - w / 2, y: p[1] - hh / 2, width: w, height: hh, rx: 12, style: "fill:var(--paper);stroke:var(" + ROUTE_VAR[n.route] + ")"}),
+        s("text", {x: p[0], y: p[1] - 14, "text-anchor": "middle", class: "t1", text: n.label}),
+        s("text", {x: p[0], y: p[1] + 5, "text-anchor": "middle", class: "t2", text: n.sub}),
+        s("text", {x: p[0], y: p[1] + 25, "text-anchor": "middle", class: "t3", style: "fill:var(--ink)", text: n.packages + " packages"})
+      ]);
+      tip(g, function () {
+        return [{value: n.packages + " packages", label: n.label + " · " + n.sub, color: ROUTE_VAR[n.route]},
+                {label: "Route: " + n.route}, {label: "Channels: " + n.channels},
+                {label: "Integration Suite: " + n.adapter}, {label: "Connectivity: " + n.connectivity}];
+      });
+      svg.appendChild(g);
+    });
+    // SAP ERP box to the far left of the PI nodes
+    var sap = s("g", {class: "node"}, [
+      s("rect", {x: 8, y: 128, width: 44, height: 64, rx: 8, style: "fill:var(--soft);stroke:var(--muted)"}),
+      s("text", {x: 30, y: 164, "text-anchor": "middle", class: "t2", text: "SAP"})
+    ]);
+    svg.appendChild(s("path", {class: "edge", d: "M52,150 L62,110", style: "stroke:var(--r-pi)"}));
+    svg.appendChild(s("path", {class: "edge", d: "M52,170 L62,220", style: "stroke:var(--r-pi)"}));
+    tip(sap, function () { return [{value: "SAP ERP", label: "Receiving systems sit behind SAP PI; they must be read from the PI Integration Directory."}]; });
+    svg.appendChild(sap);
+    document.getElementById("landscape").appendChild(svg);
+  })();
+
+  // ---------------------------------------------------------------- routes
+  (function () {
+    var max = Math.max.apply(null, D.routes.map(function (r) { return r.packages; }));
+    barRows("routes", D.routes.map(function (r) {
+      return {label: r.route === "SAP PI" ? "Through SAP PI" : r.route === "File share" ? "File share / staging" : "Direct", total: r.packages,
+        segs: [{value: r.packages, color: ROUTE_VAR[r.route], tip: [{value: r.packages + " packages", label: r.connections + " connections", color: ROUTE_VAR[r.route]}]}]};
+    }), max);
+  })();
+
+  // ---------------------------------------------------------------- Salesforce objects
+  (function () {
+    var max = Math.max.apply(null, D.sfObjects.map(function (o) { return o.read + o.write; }));
+    barRows("sfobjects", D.sfObjects.map(function (o) {
+      return {label: o.object, total: o.read + o.write, valueText: o.read + " / " + o.write,
+        aria: o.object + ": read by " + o.read + ", written by " + o.write,
+        segs: [
+          {value: o.read, color: "--read", tip: [{value: o.read + " packages", label: "read " + o.object, color: "--read"}]},
+          {value: o.write, color: "--write", tip: [{value: o.write + " packages", label: "write " + o.object + (o.actions ? " (" + o.actions + ")" : ""), color: "--write"}]}
+        ]};
+    }), max);
+  })();
+
+  // ---------------------------------------------------------------- adapters
+  (function () {
+    var max = D.adapters[0].packages;
+    barRows("adapters", D.adapters.map(function (a) {
+      return {label: a.adapter, small: a.connectivity, total: a.packages,
+        segs: [{value: a.packages, color: "--b2", tip: [{value: a.packages + " packages", label: a.adapter + " · " + a.connectivity, color: "--b2"}]}]};
+    }), max);
+  })();
+
+  // ---------------------------------------------------------------- services table
+  (function () {
+    var tb = document.querySelector("#services tbody");
+    D.services.forEach(function (sv) {
+      var kind = h("span", {class: "chip" + (sv.kind === "SAP PI" ? " pi" : ""), text: sv.kind});
+      tb.appendChild(h("tr", {}, [h("td", {}, [kind]), h("td", {}, [h("code", {text: sv.service})]), h("td", {text: sv.mode}),
+        h("td", {text: sv.operations}), h("td", {class: "n", text: String(sv.packages)})]));
+    });
+  })();
+
+  // ---------------------------------------------------------------- families
+  (function () {
+    var max = D.families[0].total;
+    barRows("families", D.families.map(function (f) {
+      return {label: f.family, total: f.total, aria: f.family + ": " + BANDS.map(function (b) { return f[b] + " " + b; }).join(", "),
+        segs: BANDS.map(function (b) {
+          return {value: f[b], color: BAND_VAR[b], tip: [{value: f[b] + " packages", label: f.family + " · " + b + " (" + D.approach[b] + ")", color: BAND_VAR[b]}]};
+        })};
+    }), max);
+  })();
+
+  // ---------------------------------------------------------------- distribution
+  (function () {
+    var el = document.getElementById("dist"), total = D.kpis.packages;
+    BANDS.forEach(function (b) {
+      var n = D.bands[b];
+      var seg = h("div", {class: "seg" + (b === "Simple" ? " lightink" : ""), style: fill(BAND_VAR[b]) + ";flex:" + n + " 1 0;min-width:124px",
+        "aria-label": b + " = " + D.approach[b] + ": " + n + " packages"},
+        [h("b", {text: String(n)}), h("span", {text: b + " · " + D.approach[b]})]);
+      tip(seg, function () { return [{value: n + " packages", label: b + " = " + D.approach[b] + " · " + Math.round(n / total * 100) + "%", color: BAND_VAR[b]}]; });
+      el.appendChild(seg);
+    });
+  })();
+
+  // ---------------------------------------------------------------- score strip
+  (function () {
+    var W = 900, H = 230, L = 110, R = 20, T = 20, B = 36;
+    var maxScore = Math.max.apply(null, D.packages.map(function (p) { return p.score; }));
+    var top = Math.ceil(maxScore / 100) * 100;
+    function x(v) { return L + Math.sqrt(v / top) * (W - L - R); }
+    var rowH = (H - T - B) / BANDS.length;
+    var svg = s("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Complexity score per package by band"});
+    [0, 25, 50, 100, 200, 300, 400, 500].filter(function (t) { return t <= top; }).forEach(function (t) {
+      svg.appendChild(s("line", {x1: x(t), x2: x(t), y1: T, y2: H - B, style: "stroke:var(--grid);stroke-width:1"}));
+      svg.appendChild(s("text", {x: x(t), y: H - B + 18, "text-anchor": "middle", style: "fill:var(--muted);font-size:12px", text: String(t)}));
+    });
+    [45, 110, 250].forEach(function (t) {
+      svg.appendChild(s("line", {x1: x(t), x2: x(t), y1: T - 6, y2: H - B, style: "stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 4"}));
+    });
+    BANDS.forEach(function (b, i) {
+      var yc = T + rowH * i + rowH / 2;
+      svg.appendChild(s("text", {x: 0, y: yc + 4, style: "fill:var(--ink-2);font-size:13px", text: b}));
+      var members = D.packages.filter(function (p) { return p.band === b; }).sort(function (a, c) { return a.score - c.score; });
+      var lastX = -100, lane = 0;
+      members.forEach(function (p) {
+        var px = x(p.score);
+        lane = px - lastX < 9 ? (lane + 1) % 3 : 0;
+        lastX = px;
+        var py = yc + (lane === 0 ? 0 : lane === 1 ? -10 : 10);
+        var g = s("g", {"aria-label": p.package + ", score " + p.score});
+        g.appendChild(s("circle", {cx: px, cy: py, r: 12, style: "fill:transparent"}));
+        g.appendChild(s("circle", {class: "dot", cx: px, cy: py, r: 5.5, style: "fill:var(" + BAND_VAR[b] + ")"}));
+        tip(g, function () {
+          return [{value: "Score " + p.score, label: p.package, color: BAND_VAR[b]},
+                  {label: p.band + " = " + p.approach + " · " + p.family}, {label: "Top drivers: " + p.drivers.join(", ")}];
+        });
+        svg.appendChild(g);
+      });
+    });
+    document.getElementById("strip").appendChild(svg);
+  })();
+
+  // ---------------------------------------------------------------- target range
+  (function () {
+    var t = D.target.totals, el = document.getElementById("range"), lo = 30, hi = 80;
+    function pct(v) { return ((v - lo) / (hi - lo) * 100) + "%"; }
+    el.appendChild(h("div", {class: "axis"}));
+    var span = h("div", {class: "span", style: "left:" + pct(t.min) + ";width:calc(" + pct(t.max) + " - " + pct(t.min) + ")"});
+    tip(span, function () { return [{value: t.min + "–" + t.max + " iFlows", label: "range from minimum to maximum"}]; });
+    el.appendChild(span);
+    var mark = h("div", {class: "mark", style: "left:" + pct(t.expected)});
+    tip(mark, function () { return [{value: t.expected + " iFlows", label: "expected (recommended design)"}]; });
+    el.appendChild(mark);
+    [["min", "minimum"], ["expected", "expected"], ["max", "maximum"]].forEach(function (k) {
+      el.appendChild(h("div", {class: "lbl", style: "left:" + pct(t[k[0]])}, [h("b", {text: String(t[k[0]])}), k[1]]));
+    });
+    [30, 40, 50, 60, 70, 80].forEach(function (v) { el.appendChild(h("div", {class: "tick", style: "left:" + pct(v), text: String(v)})); });
+    var rules = document.getElementById("rules");
+    D.target.rules.forEach(function (r) {
+      var m = r.match(/^(R\d)\s+(.*)$/);
+      if (m) rules.appendChild(h("li", {}, [h("b", {text: m[1]}), h("span", {text: m[2]})]));
+    });
+  })();
+
+  (function () {
+    var rows = D.target.byType.filter(function (t) { return t.expected > 0; });
+    var max = Math.max.apply(null, rows.map(function (t) { return t.expected; }));
+    barRows("bytype", rows.map(function (t) {
+      return {label: t.type, total: t.expected,
+        segs: [{value: t.expected, color: "--b3", tip: [{value: t.expected + " expected", label: t.type + " · min " + t.min + " · max " + t.max, color: "--b3"}]}]};
+    }), max);
+    var tb = document.querySelector("#special tbody");
+    D.target.special.forEach(function (i) {
+      tb.appendChild(h("tr", {}, [h("td", {}, [h("code", {text: i.iflow})]), h("td", {text: i.type}), h("td", {class: "n", text: String(i.min)}),
+        h("td", {class: "n", text: String(i.expected)}), h("td", {class: "n", text: String(i.max)}), h("td", {text: i.notes})]));
+    });
+  })();
+
+  // ---------------------------------------------------------------- Salesforce modernization
+  (function () {
+    var M = D.sfm;
+    var RECS = ["Replace with standard", "Adopt standard feature", "Retire with Talend", "Keep custom", "Already standard"];
+    var RVAR = {"Replace with standard": "--m-replace", "Adopt standard feature": "--m-adopt", "Retire with Talend": "--m-retire",
+                "Keep custom": "--m-keep", "Already standard": "--m-std"};
+    function recChip(r) { return h("span", {class: "rec"}, [h("i", {style: fill(RVAR[r])}), r]); }
+    document.getElementById("sfm-npat").textContent = String(M.patterns.length);
+    legend("sfm-legend", RECS.map(function (r) { return {label: r + " · " + M.summary.by_recommendation[r], color: RVAR[r]}; }));
+
+    var domains = {};
+    M.objects.forEach(function (o) { (domains[o.domain] = domains[o.domain] || []).push(o); });
+    var names = Object.keys(domains).sort(function (a, b) { return domains[b].length - domains[a].length; });
+    var max = Math.max.apply(null, names.map(function (d) { return domains[d].length; }));
+    barRows("sfm-domains", names.map(function (d) {
+      var list = domains[d];
+      return {label: d, total: list.length,
+        aria: d + ": " + RECS.map(function (r) { return list.filter(function (o) { return o.recommendation === r; }).length + " " + r; }).join(", "),
+        segs: RECS.map(function (r) {
+          var members = list.filter(function (o) { return o.recommendation === r; });
+          return {value: members.length, color: RVAR[r], tip: [{value: members.length + " · " + r, color: RVAR[r],
+            label: members.map(function (o) { return o.object; }).join(", ")}]};
+        })};
+    }), max);
+
+    var maps = document.getElementById("sfm-maps");
+    names.forEach(function (d) {
+      var list = domains[d].filter(function (o) { return ["Replace with standard", "Adopt standard feature", "Retire with Talend"].indexOf(o.recommendation) >= 0; });
+      if (!list.length) return;
+      var ul = h("ul", {class: "map-list"});
+      list.forEach(function (o) {
+        var to = h("div", {class: "to"}, [o.standard_target]);
+        to.appendChild(h("small", {text: o.recommendation + " · fit " + o.fit + (o.licence ? " · " + o.licence : "")}));
+        var li = h("li", {}, [h("div", {class: "from"}, [h("code", {text: o.object})]), h("span", {class: "arrow", "aria-hidden": "true", text: "→"}), to]);
+        tip(li, function () { return [{value: o.object + " → " + o.standard_target, label: o.rationale + " Used by " + o.packages + " package(s).", color: RVAR[o.recommendation]}]; });
+        ul.appendChild(li);
+      });
+      maps.appendChild(h("div", {class: "card"}, [h("h3", {text: d}), ul]));
+    });
+
+    var pat = document.getElementById("sfm-patterns");
+    M.patterns.slice().sort(function (a, b) { return b.packages - a.packages; }).forEach(function (x) {
+      var head = h("header", {}, [h("h4", {text: x.pattern}), h("span", {class: "pk"}, [String(x.packages), h("small", {text: "pkgs"})])]);
+      var dl = h("dl", {}, [h("dt", {text: "Today"}), h("dd", {text: x.today}), h("dt", {text: "Standard"}), h("dd", {class: "std", text: x.standard}),
+        h("dt", {text: "Value"}), h("dd", {text: x.value}), h("dt", {text: "Effort"}), h("dd", {text: x.effort})]);
+      pat.appendChild(h("article", {class: "pattern"}, [head, dl]));
+    });
+
+    var ev = document.getElementById("sfm-evidence");
+    M.evidence.forEach(function (e) { ev.appendChild(h("li", {text: e})); });
+    var cav = document.getElementById("sfm-caveat");
+    cav.appendChild(h("b", {text: "To confirm: "}));
+    cav.appendChild(document.createTextNode(M.caveat));
+
+    var fRec = document.getElementById("sfm-rec"), fDom = document.getElementById("sfm-dom");
+    RECS.forEach(function (r) { fRec.appendChild(h("option", {value: r, text: r})); });
+    names.slice().sort().forEach(function (d) { fDom.appendChild(h("option", {value: d, text: d})); });
+    var pmax = Math.max.apply(null, M.objects.map(function (o) { return o.packages; }));
+    function render() {
+      var tb = document.querySelector("#sfm-table tbody");
+      tb.textContent = "";
+      var rows = M.objects.filter(function (o) { return (!fRec.value || o.recommendation === fRec.value) && (!fDom.value || o.domain === fDom.value); });
+      rows.forEach(function (o) {
+        var bar = h("div", {class: "mini"}, [h("div", {class: "fill", style: fill(RVAR[o.recommendation]) + ";width:" + Math.max(3, o.packages / pmax * 70) + "px"}), h("span", {text: String(o.packages)})]);
+        tb.appendChild(h("tr", {}, [h("td", {}, [h("code", {text: o.object})]), h("td", {text: o.domain}), h("td", {text: o.standard_target}),
+          h("td", {}, [h("span", {class: "fit " + o.fit, text: o.fit})]), h("td", {}, [recChip(o.recommendation)]),
+          h("td", {}, [bar]), h("td", {text: o.write_actions.join(", ") || "–"}), h("td", {text: o.rationale})]));
+      });
+      document.getElementById("sfm-count").textContent = rows.length + " of " + M.objects.length + " objects";
+    }
+    [fRec, fDom].forEach(function (el) { el.addEventListener("change", render); });
+    render();
+  })();
+
+  // ---------------------------------------------------------------- explorer
+  (function () {
+    var fBand = document.getElementById("f-band"), fFam = document.getElementById("f-family");
+    BANDS.forEach(function (b) { fBand.appendChild(h("option", {value: b, text: b + " = " + D.approach[b]})); });
+    Array.from(new Set(D.packages.map(function (p) { return p.family; }))).sort().forEach(function (f) { fFam.appendChild(h("option", {value: f, text: f})); });
+    var maxScore = Math.max.apply(null, D.packages.map(function (p) { return p.score; }));
+    var sortKey = "score", dir = -1;
+    var tb = document.querySelector("#pk tbody");
+    function render() {
+      var q = document.getElementById("f-q").value.trim().toLowerCase();
+      var band = fBand.value, fam = fFam.value, route = document.getElementById("f-route").value;
+      var dec = document.getElementById("f-decision").checked;
+      var rows = D.packages.filter(function (p) {
+        if (q && (p.package + " " + p.systems.join(" ") + " " + p.family).toLowerCase().indexOf(q) < 0) return false;
+        if (band && p.band !== band) return false;
+        if (fam && p.family !== fam) return false;
+        if (route === "pi" && !p.viaPI) return false;
+        if (route === "direct" && p.viaPI) return false;
+        if (dec && !p.decision.length) return false;
+        return true;
+      }).sort(function (a, b) {
+        var va = sortKey === "band" ? BANDS.indexOf(a.band) : a[sortKey], vb = sortKey === "band" ? BANDS.indexOf(b.band) : b[sortKey];
+        return (va > vb ? 1 : va < vb ? -1 : 0) * dir;
+      });
+      tb.textContent = "";
+      rows.forEach(function (p) {
+        var mini = h("div", {class: "mini"}, [h("div", {class: "fill", style: fill(BAND_VAR[p.band]) + ";width:" + Math.max(3, Math.sqrt(p.score / maxScore) * 90) + "px"}), h("span", {text: String(p.score)})]);
+        var bandChip = h("span", {class: "chip"}, [h("i", {style: fill(BAND_VAR[p.band])}), p.band + " = " + p.approach]);
+        var routeCell = h("td", {}, [p.viaPI ? h("span", {class: "chip pi", text: "SAP PI"}) : h("span", {class: "chip", text: "Direct"})]);
+        var decCell = h("td", {}, p.decision.map(function (d) { return h("div", {class: "chip flag", style: "margin:0 0 3px", text: d.split(":")[0]}); }));
+        var sysTitle = p.systems.join(", ");
+        tb.appendChild(h("tr", {}, [
+          h("td", {}, [h("code", {text: p.package, title: sysTitle})]),
+          h("td", {text: p.family}), h("td", {}, [mini]), h("td", {}, [bandChip]), routeCell,
+          h("td", {class: "n", text: String(p.iflows), title: p.disposition}), h("td", {text: p.wave}), decCell
+        ]));
+      });
+      document.getElementById("f-count").textContent = rows.length + " of " + D.packages.length + " packages";
+      document.querySelectorAll("#pk th button").forEach(function (b) {
+        var th = b.parentElement;
+        if (b.dataset.sort === sortKey) th.setAttribute("aria-sort", dir > 0 ? "ascending" : "descending"); else th.removeAttribute("aria-sort");
+      });
+    }
+    document.querySelectorAll("#pk th button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (sortKey === b.dataset.sort) dir = -dir; else { sortKey = b.dataset.sort; dir = ["score", "iflows"].indexOf(sortKey) >= 0 ? -1 : 1; }
+        render();
+      });
+    });
+    ["f-q", "f-band", "f-family", "f-route", "f-decision"].forEach(function (id) {
+      document.getElementById(id).addEventListener(id === "f-q" ? "input" : "change", render);
+    });
+    render();
+  })();
+
+  // ---------------------------------------------------------------- findings
+  (function () {
+    var SEV = {"High": "--crit", "Medium": "--warn", "Low": "--low"};
+    var order = {"High": 0, "Medium": 1, "Low": 2};
+    var max = Math.max.apply(null, D.findings.map(function (f) { return f.packages; }));
+    var tb = document.querySelector("#fnd tbody");
+    D.findings.slice().sort(function (a, b) { return order[a.severity] - order[b.severity] || b.packages - a.packages; }).forEach(function (f) {
+      var bar = h("div", {class: "mini"}, [h("div", {class: "fill", style: fill("--b2") + ";width:" + Math.max(3, f.packages / max * 90) + "px"}), h("span", {text: String(f.packages)})]);
+      tb.appendChild(h("tr", {}, [
+        h("td", {}, [h("span", {class: "sev"}, [h("i", {style: fill(SEV[f.severity])}), f.severity])]),
+        h("td", {text: f.area}), h("td", {text: f.finding}), h("td", {}, [bar]), h("td", {text: f.action})
+      ]));
+    });
+    var smax = Math.max.apply(null, D.shared.map(function (x) { return x.packages; }));
+    barRows("shared", D.shared.map(function (x) {
+      return {label: x.job, small: x.variants + (x.variants === 1 ? " variant (identical)" : " variants to reconcile"), total: x.packages,
+        segs: [{value: x.packages, color: x.variants > 1 ? "--b3" : "--b1", tip: [{value: x.packages + " packages", label: x.job + " · " + x.variants + " variant(s)", color: x.variants > 1 ? "--b3" : "--b1"}]}]};
+    }), smax);
+  })();
+})();
+</script>
+
+</body>
+</html>

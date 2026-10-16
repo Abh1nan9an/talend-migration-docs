@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Talend to Integration Suite Handbook</title>
+</head>
+<body>
+<title>Talend to Integration Suite Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --ground:#f4f6f8; --paper:#ffffff; --ink:#17212b; --muted:#566271; --line:#dbe1e7; --soft:#eaeef2;
+  --talend:#b45309; --talend-bg:#fdf1e3; --sap:#0a5fb4; --sap-bg:#e6f0fb;
+  --ok:#1f7a4d; --ok-bg:#e3f4ea; --warn:#9a6700; --warn-bg:#fbf1d9; --bad:#b42318; --bad-bg:#fde8e6;
+  --code-bg:#eef1f5;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0e141a; --paper:#151d25; --ink:#e5ebf1; --muted:#9aa7b4; --line:#2a3642; --soft:#1c2630;
+    --talend:#f0a35a; --talend-bg:#33240f; --sap:#6aaef5; --sap-bg:#12283f;
+    --ok:#5fcf93; --ok-bg:#12301f; --warn:#e8bb52; --warn-bg:#33280c; --bad:#f28b82; --bad-bg:#3a1714;
+    --code-bg:#1b252f;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0e141a; --paper:#151d25; --ink:#e5ebf1; --muted:#9aa7b4; --line:#2a3642; --soft:#1c2630;
+  --talend:#f0a35a; --talend-bg:#33240f; --sap:#6aaef5; --sap-bg:#12283f;
+  --ok:#5fcf93; --ok-bg:#12301f; --warn:#e8bb52; --warn-bg:#33280c; --bad:#f28b82; --bad-bg:#3a1714;
+  --code-bg:#1b252f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font:15px/1.6 var(--body);padding-inline:16px;padding-block:0 64px}
+a{color:var(--sap);text-underline-offset:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sap);outline-offset:2px;border-radius:3px}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--code-bg);padding:.08em .35em;border-radius:4px;overflow-wrap:anywhere}
+
+.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:40px}
+@media (min-width:1040px){.shell{grid-template-columns:230px minmax(0,1fr)}}
+
+header.masthead{max-width:1240px;margin:0 auto;padding-block:40px 28px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.eyebrow{font:600 12px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,5vw,46px)/1.08 var(--display);letter-spacing:-.01em;margin:.35em 0 .3em;text-wrap:balance}
+h1 .src{color:var(--talend)} h1 .tgt{color:var(--sap)}
+.lede{max-width:68ch;color:var(--muted);font-size:17px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
+
+nav.toc{display:none}
+@media (min-width:1040px){
+  nav.toc{display:block;position:sticky;top:24px;align-self:start;font-size:13.5px}
+  nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:s}
+  nav.toc a{display:block;padding:5px 10px;border-radius:6px;color:var(--muted);text-decoration:none}
+  nav.toc a:hover{background:var(--soft);color:var(--ink)}
+}
+.toc-mobile{display:block;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:8px;font-size:14px}
+.toc-mobile summary{cursor:pointer;font-weight:600}
+.toc-mobile ol{margin:.6em 0 0;padding-left:1.2em;columns:1}
+@media (min-width:1040px){.toc-mobile{display:none}}
+
+main{min-width:0}
+section{padding-block:8px 36px;border-bottom:1px solid var(--line);margin-bottom:36px}
+section:last-child{border-bottom:0}
+h2{font:600 clamp(23px,3vw,29px)/1.2 var(--display);margin:0 0 .5em;text-wrap:balance;scroll-margin-top:20px}
+h2 .num{color:var(--muted);font-weight:500;margin-right:.35em}
+h3{font:600 18px/1.3 var(--display);margin:1.6em 0 .5em;letter-spacing:.01em}
+p,li{max-width:72ch}
+p{margin:.6em 0}
+ul,ol{padding-left:1.3em}
+li{margin:.25em 0}
+.muted{color:var(--muted)}
+
+.pill{display:inline-block;font:600 11.5px/1 var(--body);letter-spacing:.03em;padding:4px 8px;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.pill.ok{background:var(--ok-bg);color:var(--ok)} .pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)} .pill.info{background:var(--sap-bg);color:var(--sap)}
+.t{font-family:var(--mono);font-size:12.5px;color:var(--talend);background:var(--talend-bg);padding:2px 6px;border-radius:4px;white-space:nowrap;display:inline-block;margin:1px 0}
+.s{font-family:var(--mono);font-size:12.5px;color:var(--sap);background:var(--sap-bg);padding:2px 6px;border-radius:4px;display:inline-block;margin:1px 0}
+
+.tablewrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font:600 12px/1.3 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--soft);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+table.map td:first-child{width:28%}
+table.map td:nth-child(2){width:30%}
+.group td{background:var(--soft);font:600 13px/1.3 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:18px 0}
+.iface{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;align-content:start}
+.iface h3{margin:0;font-size:19px}
+.iface .dir{font-size:13.5px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+
+.steps{list-style:none;padding:0;margin:18px 0;display:grid;gap:0;counter-reset:step}
+.steps li{counter-increment:step;display:grid;grid-template-columns:44px 1fr;gap:4px 14px;padding:14px 0;border-top:1px solid var(--line);max-width:none}
+.steps li::before{content:counter(step);grid-row:span 2;font:600 22px/1 var(--display);color:var(--sap);padding-top:2px}
+.steps b{font-family:var(--display);font-size:16.5px;font-weight:600}
+.steps p{margin:0;color:var(--ink)}
+
+.diagram{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;overflow-x:auto}
+.diagram pre.mermaid{margin:0;background:transparent;display:flex;justify-content:center}
+.caption{font-size:13px;color:var(--muted);margin-top:6px}
+
+.callout{border-left:3px solid var(--warn);background:var(--warn-bg);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;max-width:78ch}
+.callout.info{border-color:var(--sap);background:var(--sap-bg)}
+.callout p{margin:.3em 0}
+.callout strong{font-family:var(--display);letter-spacing:.02em}
+
+pre.code{background:var(--code-bg);border-radius:8px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--mono);margin:12px 0}
+
+.two{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:760px){.two{grid-template-columns:1fr 1fr}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px}
+.panel h4{margin:0 0 6px;font:600 13px/1.3 var(--display);letter-spacing:.08em;text-transform:uppercase}
+.panel.t-side h4{color:var(--talend)} .panel.s-side h4{color:var(--sap)}
+.panel ul{margin:0;padding-left:1.1em;font-size:14px}
+footer{max-width:1240px;margin:0 auto;color:var(--muted);font-size:13px}
+</style>
+
+<header class="masthead">
+  <div class="eyebrow">Technical documentation · Integration migration</div>
+  <h1><span class="src">Talend</span> to <span class="tgt">SAP Integration Suite</span></h1>
+  <p class="lede">How Talend jobs from the Salesforce ⇄ SAP PI estate are analysed, rebuilt as Cloud Integration iFlows, and checked for parity. Covers the object mapping, the toolchain, the first two migrated interfaces and what remains before go-live.</p>
+  <div class="meta">
+    <span><b>Source</b> Talend Data Management Platform 8.0.1</span>
+    <span><b>Target</b> SAP Integration Suite, Cloud Integration</span>
+    <span><b>Estate</b> 50 packages · 123 jobs · 14 end systems</span>
+    <span><b>Status as of</b> 14 Oct 2026</span>
+  </div>
+</header>
+
+<div class="shell">
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#concepts">Concept mapping</a></li>
+    <li><a href="#components">Component mapping</a></li>
+    <li><a href="#semantics">Java semantics to keep</a></li>
+    <li><a href="#wholesaler">PI_SF_Wholesaler</a></li>
+    <li><a href="#payment">SF_PI_PaymentDetail</a></li>
+    <li><a href="#validation">Validation &amp; parity</a></li>
+    <li><a href="#traps">Export traps</a></li>
+    <li><a href="#toolchain">Toolchain</a></li>
+    <li><a href="#deploy">Deployment</a></li>
+    <li><a href="#next">Open items &amp; next wave</a></li>
+  </ol>
+</nav>
+
+<main>
+<details class="toc-mobile">
+  <summary>Contents</summary>
+  <ol>
+    <li><a href="#status">Status</a></li><li><a href="#approach">Approach</a></li><li><a href="#concepts">Concept mapping</a></li>
+    <li><a href="#components">Component mapping</a></li><li><a href="#semantics">Java semantics to keep</a></li>
+    <li><a href="#wholesaler">PI_SF_Wholesaler</a></li><li><a href="#payment">SF_PI_PaymentDetail</a></li>
+    <li><a href="#validation">Validation &amp; parity</a></li><li><a href="#traps">Export traps</a></li>
+    <li><a href="#toolchain">Toolchain</a></li><li><a href="#deploy">Deployment</a></li><li><a href="#next">Open items &amp; next wave</a></li>
+  </ol>
+</details>
+
+<!-- STATUS -->
+<section id="status">
+  <h2>Status</h2>
+  <p>Two interfaces with substantial mapping logic were migrated first, one in each direction, so the patterns cover most of the estate.</p>
+  <div class="status">
+    <article class="iface">
+      <h3>PI_SF_Wholesaler</h3>
+      <div class="dir">SAP customer file (via PI) → Salesforce <code>Account</code>, <code>BrandDetail__c</code></div>
+      <dl class="kv">
+        <dt>Talend logic</dt><dd>4 maps · 94 expressions · 3 per-row lookups</dd>
+        <dt>iFlow</dt><dd><code>Talend_PI_SF_Wholesaler</code> · 25 steps</dd>
+        <dt>Local tests</dt><dd><span class="pill ok">16 passing</span></dd>
+        <dt>Tarento tenant</dt><dd><span class="pill ok">Deployed · STARTED</span><br><span class="muted">Started with a placeholder <code>SFTP_SERVICES</code> credential; replace with the real SFTP user before any run</span></dd>
+        <dt>Prod parity</dt><dd><span class="pill bad">Not proven yet</span></dd>
+      </dl>
+    </article>
+    <article class="iface">
+      <h3>SF_PI_PaymentDetail</h3>
+      <div class="dir">Salesforce <code>SCOrder__c</code> → SAP via PI SOAP 1.2 → Salesforce + feedback file</div>
+      <dl class="kv">
+        <dt>Talend logic</dt><dd>6 maps · 64 expressions</dd>
+        <dt>iFlow</dt><dd><code>Talend_SF_PI_PaymentDetail</code> · 31 steps</dd>
+        <dt>Local tests</dt><dd><span class="pill ok">14 passing</span></dd>
+        <dt>Tarento tenant</dt><dd><span class="pill ok">Deployed · STARTED</span><br><span class="muted">No endpoints or credentials configured yet, so runs stop at the Salesforce query</span></dd>
+        <dt>Prod parity</dt><dd><span class="pill bad">Not proven yet</span></dd>
+      </dl>
+    </article>
+  </div>
+  <p class="muted">“Local tests” means the Groovy scripts, executed inside the iFlow design by a local simulator, produce exactly the calls of an executable Python specification of the Talend job. Parity with production Talend needs the client's archived data (see <a href="#validation">Validation</a>).</p>
+</section>
+
+<!-- APPROACH -->
+<section id="approach">
+  <h2>Approach</h2>
+  <p>The method is: analyse the source exactly, keep an executable reference, prove parity against real archived data, then port and package.</p>
+  <ol class="steps">
+    <li><b>Export job documentation from Talend Studio</b><p>“Generate Doc as HTML” per job gives every component parameter (SOQL, endpoints, Java code), schemas, connections, context values per environment and every tMap / tXMLMap expression. It is the complete specification of what the job does.</p></li>
+    <li><b>Parse the export into structured data</b><p><code>talend_doc_parser.py</code> turns each job into JSON; <code>build_inventory.py</code> classifies all 50 packages by pattern, map size, custom Java and shared sub-jobs.</p></li>
+    <li><b>List what the export does not contain</b><p>Project routines, <span class="t">tWriteXMLField</span> trees, XML namespace URIs and loop elements, TMC schedules and per-task context values. Request exactly these from the client.</p></li>
+    <li><b>Write a Python reference with Java semantics</b><p>A tMap expression is Java. The reference reproduces its behaviour, including nulls, string identity and number formatting, and flags where that behaviour is clearly unintended.</p></li>
+    <li><b>Choose the parity oracle</b><p>Archived evidence of what Talend really produced: <code>Talend_Jobmonitor__c</code> payloads in Salesforce, TMC logs of <span class="t">tLogRow</span>, archived files.</p></li>
+    <li><b>Port to Groovy and design the iFlow as data</b><p>One Groovy function per iFlow script step, with the same names as the reference. The iFlow is described once in <code>flow.py</code>, then rendered to BPMN and executed by the local simulator.</p></li>
+    <li><b>Build, deploy, verify live</b><p>Bundles are generated from adapter and step property sets harvested from real tenant iFlows, validated, uploaded and deployed through the Content API, then the oracle inputs are replayed against the deployed iFlow.</p></li>
+  </ol>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  A[Talend doc export<br/>HTML + XML] --> B[talend_doc_parser.py<br/>job JSON]
+  B --> C[Python reference<br/>+ unit tests]
+  B --> D[flow.py<br/>iFlow design]
+  C --> E[Groovy port]
+  D --> F[Local simulator<br/>cpi_sim]
+  E --> F
+  C -. same calls? .-> F
+  D --> G[iflow_builder<br/>harvested templates]
+  E --> G
+  G --> H[Bundle .zip]
+  H --> I[cpi_deploy.py<br/>Content API]
+  I --> J[Integration Suite tenant]
+  K[(Oracle data<br/>Talend_Jobmonitor__c,<br/>TMC logs, archives)] -. parity .-> C
+  K -. live replay .-> J
+</pre>
+  </div>
+  <p class="caption">Toolchain. Dotted lines are comparisons, not data flow.</p>
+</section>
+
+<!-- CONCEPTS -->
+<section id="concepts">
+  <h2>Concept mapping</h2>
+  <p>How Talend's organisational and runtime objects land in Integration Suite.</p>
+  <div class="tablewrap">
+  <table class="map">
+    <thead><tr><th>Talend</th><th>SAP Integration Suite</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Project / TMC workspace</td><td>Tenant (dev / test / prod subaccounts)</td><td>Environment separation moves from Talend contexts to separate tenants plus parameter values.</td></tr>
+      <tr><td>Package folder (<code>SF_PI_…_Master_2.0</code>)</td><td>Integration package <code>TalendMigration</code></td><td>One package for the migration wave; can be split by business domain later.</td></tr>
+      <tr><td>Master job + child job via <span class="t">tRunJob</span></td><td>One iFlow: main process + <span class="s">Local Integration Process</span></td><td>The master's iteration becomes a <span class="s">Looping Process Call</span>; the child's body is the local process.</td></tr>
+      <tr><td>“Die on child error = false”</td><td><span class="s">Exception Subprocess</span> inside the local process</td><td>A failed record is logged and the loop continues, as a failed child did not stop the master.</td></tr>
+      <tr><td>Sub-job shared across packages</td><td>Separate iFlow called via <span class="s">ProcessDirect</span></td><td>Planned for <code>SF_PI_PersonAccount</code>, <code>SF_SF_GetAccountNumber</code>, <code>Checkpoint_ServiceOrder</code>.</td></tr>
+      <tr><td>Joblet <code>talend_jobmonitor</code></td><td>Script function <code>monitorBody()</code> + Request-Reply to Salesforce</td><td>Keeps writing <code>Talend_Jobmonitor__c</code> so Salesforce-side monitoring still works; MPL custom headers added for IS operations.</td></tr>
+      <tr><td>Context group (<code>Live</code>, <code>Test</code>) values</td><td><span class="s">Externalized parameters</span></td><td>Configured per tenant with “Configure”, never edited in the design.</td></tr>
+      <tr><td>Context passwords (<code>id_Password</code>)</td><td><span class="s">Security Material</span>: User Credentials / OAuth2 Client Credentials</td><td>Referenced by name from adapters; values never in the bundle.</td></tr>
+      <tr><td>TMC task schedule</td><td><span class="s">Timer</span> start event, or SFTP sender poll schedule</td><td>Schedules are not in the export; they have to come from TMC.</td></tr>
+      <tr><td>Project routines (<code>StringMod</code>, <code>TDIData</code>)</td><td>Groovy helper functions in the script (later a Script Collection); <code>TDIData</code>'s mapping table becomes an Integration Suite value mapping</td><td>Source received with the project delivery (Oct 2026): <code>PadLeft</code>/<code>PadRight</code> throw on a null input; <code>TDIData</code> opens its own MySQL connection.</td></tr>
+      <tr><td><code>globalMap</code> / <span class="t">tSetGlobalVar</span></td><td>Exchange properties</td><td>Properties persist across Looping Process Call iterations, which is why loops are used instead of splitters where values accumulate.</td></tr>
+      <tr><td>Row flow (one row at a time)</td><td>One message per iteration (loop) or per split part</td><td>Talend's commit batches (Commit Level 200) become per-record calls or sObject Collections.</td></tr>
+      <tr><td>Talend execution log</td><td>Message Processing Log (MPL)</td><td>Error details as MPL attachments; <code>TalendStatus</code>, <code>TalendResultCode</code>, <code>TalendOrdersFailed</code> custom headers.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section id="components">
+  <h2>Component mapping</h2>
+  <p>Component-level equivalents. The first groups are implemented in the two migrated interfaces; the last group is the proposed mapping for components found elsewhere in the estate.</p>
+  <div class="tablewrap">
+  <table class="map">
+    <thead><tr><th>Talend component</th><th>Integration Suite construct</th><th>Implementation detail</th></tr></thead>
+    <tbody>
+      <tr class="group"><td colspan="3">Salesforce</td></tr>
+      <tr><td><span class="t">tSalesforceConnection</span> (SOAP login, user + password)</td><td><span class="s">HTTP receiver</span> · OAuth2 Client Credentials</td><td>Salesforce REST API; Connected App for the integration user. Address <code>{{SF_InstanceUrl}}${property.sfPath}</code>.</td></tr>
+      <tr><td><span class="t">tSalesforceInput</span> (Full SOQL)</td><td><span class="s">Request-Reply</span> GET <code>/query?q=…</code> in a looping local process</td><td>Follows <code>nextRecordsUrl</code> until <code>done</code>, equivalent to Talend's queryMore.</td></tr>
+      <tr><td><span class="t">tSalesforceInput</span> as tMap lookup, <code>RELOAD</code></td><td><span class="s">Request-Reply</span> per iteration</td><td>SOQL built from the lookup's <code>globalMapKeysValues</code> expression, one query per record.</td></tr>
+      <tr><td><span class="t">tSalesforceOutput</span> UPSERT on external ID</td><td><span class="s">Request-Reply</span> PATCH <code>/sobjects/{Object}/{ExtIdField}/{value}</code></td><td>External ID goes in the URL, not the body.</td></tr>
+      <tr><td><span class="t">tSalesforceOutput</span> UPDATE, several rows</td><td><span class="s">Request-Reply</span> PATCH <code>/composite/sobjects</code></td><td><code>allOrNone:false</code>; a script inspects per-record results.</td></tr>
+      <tr><td>Option “Ignore Null”</td><td>Script omits null fields from the JSON body</td><td>An empty string is still sent and clears the field, exactly as in Talend.</td></tr>
+      <tr><td>Option “Die on error”</td><td>HTTP adapter “Throw Exception on Failure”, or a result-check script that throws</td><td>Without it, rejected rows are logged to MPL and processing continues.</td></tr>
+      <tr class="group"><td colspan="3">SAP PI / SOAP</td></tr>
+      <tr><td><span class="t">tSOAP</span> (Basic auth, SOAP 1.1 / 1.2, message from schema)</td><td><span class="s">HTTP receiver</span> POST, Basic auth, proxy On-Premise (Cloud Connector)</td><td>The script builds the same envelope and sets <code>Content-Type</code> with the SOAP action. “Throw Exception on Failure” is off so SOAP faults (HTTP 500) reach the script.</td></tr>
+      <tr><td><span class="t">tXMLMap</span> building the request</td><td>Groovy string builder</td><td>Namespace URIs are parameters because the export does not carry them.</td></tr>
+      <tr><td><span class="t">tFilterRow</span> <code>contains("SOAP:Fault")</code></td><td>Groovy check in the evaluation step</td><td>Kept literally, including the <code>SOAP:</code> prefix PI emits.</td></tr>
+      <tr class="group"><td colspan="3">Files</td></tr>
+      <tr><td><span class="t">tFileList</span> (mask, sort by date) + <span class="t">tRunJob</span></td><td><span class="s">SFTP sender</span> (file name filter, sort by timestamp, poll schedule)</td><td>One message per file. The Windows share is not reachable from IS, so an SFTP endpoint is a landscape prerequisite.</td></tr>
+      <tr><td><span class="t">tFileInputXML</span> + loop</td><td>Groovy DOM parse into a list property</td><td>Missing element → null, empty element → <code>""</code>, matching tXMLMap.</td></tr>
+      <tr><td><span class="t">tFileCopy</span> OK / FAILED (remove source)</td><td>SFTP sender post-processing <b>Delete</b> + <span class="s">SFTP receivers</span> Archive / Failed on the two end events</td><td>The original file is restored into the body before each end.</td></tr>
+      <tr><td><span class="t">tFileOutputDelimited</span> (append, header, ISO-8859-15)</td><td>Groovy CSV per country → <span class="s">General Splitter</span> → <span class="s">SFTP receiver</span></td><td>One file per country per run (deviation: SFTP cannot append with a conditional header).</td></tr>
+      <tr class="group"><td colspan="3">Transformation &amp; flow control</td></tr>
+      <tr><td><span class="t">tMap</span> / <span class="t">tXMLMap</span> expressions, vars, filters</td><td><span class="s">Groovy Script</span> functions</td><td>Ported line by line; Groovy runs on the JVM, so <code>trim()</code>, <code>replace()</code>, <code>replaceAll()</code> behave exactly as in Talend.</td></tr>
+      <tr><td><span class="t">tMap</span> output with a filter that gates a write</td><td>Script sets a flag + <span class="s">Router</span> (<code>${property.x} = 'true'</code>)</td><td>Router routes use Non-XML conditions; the default route skips the call.</td></tr>
+      <tr><td><span class="t">tFlowToIterate</span> / <span class="t">tRunJob</span> per row</td><td><span class="s">Looping Process Call</span></td><td>Do-while; the index advances in the first step so a failing record cannot stall the loop.</td></tr>
+      <tr><td><span class="t">tAggregateRow</span> (group by all columns)</td><td>Groovy distinct</td><td>First-seen order (Talend's hash order is unspecified).</td></tr>
+      <tr><td><span class="t">tExtractDelimitedFields</span>, <span class="t">tConvertType</span></td><td>Groovy</td><td>String columns come back as <code>""</code>, numeric ones as null.</td></tr>
+      <tr><td><span class="t">tHashOutput</span> / <span class="t">tHashInput</span></td><td>Exchange property holding a List</td><td></td></tr>
+      <tr><td><span class="t">tReplicate</span></td><td>Sequential steps</td><td></td></tr>
+      <tr><td><span class="t">tJava</span> / <span class="t">tJavaRow</span></td><td><span class="s">Groovy Script</span></td><td></td></tr>
+      <tr class="group"><td colspan="3">Errors &amp; logging</td></tr>
+      <tr><td><span class="t">tLogCatcher</span> + <span class="t">tWarn</span> / <span class="t">tDie</span> codes</td><td><span class="s">Exception Subprocess</span> + property <code>talend.errorCode</code></td><td>Codes kept: 0 start, 1 success, 102 upsert rejected, 103 Java exception, 999 unreadable file.</td></tr>
+      <tr><td><span class="t">tLogRow</span></td><td>MPL attachment / custom header</td><td>In Talend these log lines are also the parity oracle.</td></tr>
+      <tr><td><span class="t">tWriteXMLField</span> (monitor payload)</td><td>Groovy string builder</td><td>XML tree not exported; layout to be confirmed from archived monitor records.</td></tr>
+      <tr class="group"><td colspan="3">Proposed for later waves</td></tr>
+      <tr><td><span class="t">tSendMail</span></td><td><span class="s">Mail receiver adapter</span></td><td>9 packages; attachments via MPL-safe body handling.</td></tr>
+      <tr><td><span class="t">tFTPConnection</span> / <span class="t">tFTPPut</span></td><td><span class="s">FTP / SFTP receiver</span></td><td>3 packages.</td></tr>
+      <tr><td><span class="t">tRESTClient</span></td><td><span class="s">HTTP receiver</span></td><td>2 packages.</td></tr>
+      <tr><td><span class="t">tMysqlInput</span> / <span class="t">tMysqlOutput</span></td><td><span class="s">JDBC receiver</span> via Cloud Connector</td><td>Gessat packages.</td></tr>
+      <tr><td><span class="t">tParallelize</span></td><td><span class="s">Parallel Multicast</span> or sequential steps</td><td>Only where ordering allows.</td></tr>
+      <tr><td><span class="t">tDenormalize</span>, <span class="t">tSortRow</span>, <span class="t">tUniqRow</span>, <span class="t">tFilterColumns</span></td><td>Groovy</td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- SEMANTICS -->
+<section id="semantics">
+  <h2>Java semantics to keep</h2>
+  <p>Talend expressions run as Java, and production data depends on that behaviour. The reference implementation (<code>common/reference/talend_rt.py</code>) and the Groovy scripts reproduce each case below. Where the behaviour looks unintended, it is kept by default and raised as a decision.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Talend / Java construct</th><th>Actual behaviour</th><th>Seen in</th></tr></thead>
+    <tbody>
+      <tr><td><code>value.equals(…)</code>, <code>.toString()</code> on a null field</td><td>NullPointerException: the row fails and, without a catcher, the job (Wholesaler: whole file → <code>failed/</code>)</td><td>Wholesaler, PaymentDetail</td></tr>
+      <tr><td><code>str != ""</code></td><td>Reference comparison, not content: a parsed non-empty value is always “not equal”; an empty XML element is the interned literal</td><td>Owner rule, invoice filter</td></tr>
+      <tr><td><code>Street.replaceAll("^[^0-9]+","")</code></td><td>Strips only leading non-digits: <code>"15 Via Roma"</code> becomes the house number and the street is empty</td><td>Wholesaler</td></tr>
+      <tr><td><code>"…" + null</code></td><td>Concatenates the text <code>null</code> (<code>null_Business_Accounts</code>)</td><td>Wholesaler lookup key</td></tr>
+      <tr><td><code>data.replace("null","")</code></td><td>Also deletes “null” inside words: <code>Annullation-7</code> is sent to SAP as <code>Anation-7</code></td><td>PaymentDetail master</td></tr>
+      <tr><td><code>Double.valueOf(text)</code></td><td>Throws on empty or non-numeric text; accepts exponent notation</td><td>PaymentDetail</td></tr>
+      <tr><td>Double in CSV (<code>FormatterUtils.formatUnwithE</code>)</td><td><code>1.2E7</code> written as <code>12000000</code>; <code>0</code> as <code>0.0</code></td><td>Feedback file</td></tr>
+      <tr><td><code>StringHandling.RIGHT(s, n)</code></td><td>Last n characters, whole string if shorter</td><td>Account number, ID2__c</td></tr>
+      <tr><td><code>TalendDate.isDate(s, "yyyy-MM-dd")</code></td><td>Non-lenient: <code>0000-00-00</code> and <code>2025-02-30</code> are not dates</td><td>Clearing / invoice dates</td></tr>
+      <tr><td>tMap lookup <code>ALL_ROWS</code>, no join key</td><td>Cartesian product; with <code>LIMIT 1</code> queries it is one row</td><td>All lookups</td></tr>
+      <tr><td>Salesforce output Commit Level 200</td><td>Rows buffered; a job failure loses the unflushed batch</td><td>Wholesaler (deviation D2)</td></tr>
+      <tr><td><code>StringMod.PadLeft(s, n, fill)</code></td><td><b>NullPointerException on a null input</b> (computed outside the routine's try block); a value longer than n is returned unchanged</td><td>Wholesaler <code>TargetGroup__c</code></td></tr>
+      <tr><td><code>TalendDate.isDate(s, pattern)</code></td><td>Parses leniently, then formats the result and compares it with the input — so <code>2025-02-30</code> and <code>0000-00-00</code> fail the round trip. The 3-argument form adds UTC and a length check</td><td>Clearing / invoice dates (verified from <code>system-routines.jar</code>)</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- WHOLESALER -->
+<section id="wholesaler">
+  <h2>PI_SF_Wholesaler</h2>
+  <p>SAP customer master arrives from PI as <code>customer*</code> XML files. For each customer the job looks up the Account record type and owner, upserts the <code>Account</code> on <code>ID2__c</code>, aligns <code>BrandDetail__c</code> owners with the Account owner, writes a run record to <code>Talend_Jobmonitor__c</code> and archives the file.</p>
+  <div class="two">
+    <div class="panel t-side"><h4>Talend structure</h4>
+      <ul>
+        <li><span class="t">tFileList</span> → <span class="t">tRunJob</span> per file</li>
+        <li><span class="t">tFileInputXML</span> → <span class="t">tXMLMap_1</span> (loop <code>customer</code>)</li>
+        <li><span class="t">tMap_2</span> + RELOAD lookups RecordType, User</li>
+        <li><span class="t">tSalesforceOutput_1</span> UPSERT Account</li>
+        <li><span class="t">tMap_3</span> + RELOAD lookup BrandDetail__c → UPDATE</li>
+        <li><span class="t">tFileCopy</span> OK / FAILED · <span class="t">talend_jobmonitor</span></li>
+      </ul>
+    </div>
+    <div class="panel s-side"><h4>iFlow Talend_PI_SF_Wholesaler</h4>
+      <ul>
+        <li>SFTP sender → Read configuration → <code>initRun</code></li>
+        <li>Router → Looping Process Call “Process one customer”</li>
+        <li>RecordType query → Router (owner given?) → User query</li>
+        <li><code>buildAccountUpsert</code> → PATCH Account</li>
+        <li>BrandDetail query → Router → PATCH collection</li>
+        <li><code>finishRun</code> → monitor → SFTP Archive · Exception Subprocess → SFTP Failed</li>
+      </ul>
+    </div>
+  </div>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  S([SFTP sender<br/>customer*]) --> C[Read configuration] --> I[initRun<br/>parse file]
+  I --> R1{customers?}
+  R1 -- yes --> L[[Looping Process Call<br/>Process one customer]]
+  R1 -- no --> F
+  L --> F[finishRun] --> M[PATCH<br/>Talend_Jobmonitor__c] --> A[restore file] --> E([SFTP Archive])
+  subgraph cust["One customer (local process)"]
+    N[nextCustomer] --> Q1[GET RecordType] --> O{owner?}
+    O -- yes --> Q2[GET User] --> U
+    O -- no --> U[buildAccountUpsert]
+    U --> P1[PATCH Account<br/>ID2__c] --> Q3[GET BrandDetail__c] --> B{brands?}
+    B -- yes --> P2[PATCH composite] --> K[check results]
+  end
+  X([Error]) --> XE[onError] --> XM[PATCH monitor] --> XF([SFTP Failed])
+</pre>
+  </div>
+  <h3>Key mapping rules</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Account field</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td><code>ID2__c</code></td><td>DE: <code>DE-001-</code> + last 6 of CustomerNumber; others: <code>&lt;country&gt;-</code> + last 8</td></tr>
+      <tr><td><code>AccountNumber</code>, <code>IDOld__c</code></td><td>Last 6 (DE) or 8 characters of CustomerNumber</td></tr>
+      <tr><td><code>RecordTypeId</code></td><td>RecordType <code>&lt;country&gt;_Business_Accounts</code>, active, Account</td></tr>
+      <tr><td><code>OwnerId</code></td><td>User whose role name ends with <code>&lt;Owner&gt;</code></td></tr>
+      <tr><td><code>BillingStreet__c</code> / <code>BillingHouseNo__c</code></td><td>Split of <code>Street</code> at the first digit (Java regex behaviour kept)</td></tr>
+      <tr><td><code>TaxCode0/1/2__c</code></td><td>IT: chamber of commerce no., VAT code, empty · others: empty, empty, tax number</td></tr>
+      <tr><td><code>LockType__c</code></td><td>Insolvency flag 01/02/03 → 50001/50002/50003</td></tr>
+      <tr><td><code>TargetGroup__c</code></td><td>Left-padded to 3 with “0” (<code>StringMod.PadLeft</code>). <b>A null target group throws</b> and fails the whole file — the routine dereferences the value outside its try block.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="muted">The full 29-field mapping is in <code>interfaces/PI_SF_Wholesaler/SPEC.md</code>.</p>
+  <h3>Deliberate deviations</h3>
+  <ul>
+    <li><b>Customers without an owner</b>: Talend's <code>LIKE '%'</code> lookup assigns an arbitrary user. The iFlow skips <code>OwnerId</code>; parameter <code>Owner_Policy=talend</code> restores the original.</li>
+    <li><b>Per-customer upserts</b> instead of batches of 200: a failing file keeps the customers already written (upserts are idempotent, so reprocessing is safe).</li>
+    <li><b>Unreadable files</b> are also logged to <code>Talend_Jobmonitor__c</code> (code 999); Talend skipped them.</li>
+  </ul>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment">
+  <h2>SF_PI_PaymentDetail</h2>
+  <p>For Service orders that are invoiced but not complete, the interface asks SAP for invoice and payment details through PI, then completes or keeps the order open, updates contract accounting for mandatory-paid types, and writes every SAP answer to a feedback file.</p>
+  <div class="two">
+    <div class="panel t-side"><h4>Talend structure</h4>
+      <ul>
+        <li>Master: <span class="t">tSalesforceInput</span> SOQL → <span class="t">tMap_1</span> string → <span class="t">tRunJob</span> per order</li>
+        <li><span class="t">tExtractDelimitedFields</span> → <span class="t">tXMLMap_1</span> SOAP request</li>
+        <li><span class="t">tSOAP_1</span> → <span class="t">tFilterRow</span> (no fault) → <span class="t">tXMLMap_2</span> → <span class="t">tAggregateRow</span></li>
+        <li><span class="t">tMap_1</span> / <span class="t">tMap_2</span> rules → UPDATE SCOrder__c</li>
+        <li><span class="t">tMap_3</span> + RELOAD accounting → UPDATE SCContractAccounting__c</li>
+        <li><span class="t">tFileOutputDelimited</span> feedback file</li>
+      </ul>
+    </div>
+    <div class="panel s-side"><h4>iFlow Talend_SF_PI_PaymentDetail</h4>
+      <ul>
+        <li>Timer → Read configuration → paged order query (looping)</li>
+        <li>Looping Process Call “Process one order” with Exception Subprocess</li>
+        <li><code>nextOrder</code> → POST to PI → <code>evaluatePaymentResponse</code></li>
+        <li>Router → PATCH order → Router → accounting query → Router → PATCH collection</li>
+        <li><code>buildFeedbackFiles</code> → Router → Splitter → SFTP</li>
+      </ul>
+    </div>
+  </div>
+  <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  T([Timer]) --> C[Read configuration] --> Q[[Looping: fetch order pages]] --> O{orders?}
+  O -- yes --> L[[Looping Process Call<br/>Process one order]] --> FB
+  O -- no --> FB[buildFeedbackFiles] --> R{rows?}
+  R -- yes --> SP[Splitter per country] --> EX[extractFile] --> E([SFTP feedback])
+  R -- no --> E2([End])
+  subgraph ord["One order (local process)"]
+    N[nextOrder<br/>SOAP 1.2 request] --> PI[POST PI] --> EV[evaluate rules]
+    EV --> I{invoice?}
+    I -- yes --> PO[PATCH SCOrder__c] --> MP{mandatory paid?}
+    MP -- yes --> AQ[GET accounting] --> AB{rows?}
+    AB -- yes --> AP[PATCH composite]
+    ER([Error]) --> RE[record failure, continue]
+  end
+</pre>
+  </div>
+  <h3>Business rules</h3>
+<pre class="code">OrderIsArchiv    = (FULLY_PAID ≈ "A" and invoice) or (invoice and VALUE == 0)
+OrderIsPaid      = FULLY_PAID ≈ "X" or CLEARING_DATE is a valid date (not 0000-00-00)
+mandatorypaid    = Type__c in {5711, 5712, 5730, 5732, 5734}
+OrderIsCompleted = (mandatorypaid and OrderIsPaid) or (not mandatorypaid and OrderIsArchiv)
+                   or PriceNet__c == 0
+
+completed → Status__c 5508, InvoicingStatus__c 52404, accounting "booked"
+otherwise → Status__c 5506, InvoicingStatus__c 52403, accounting "invoiced"</pre>
+  <h3>Deliberate deviations</h3>
+  <ul>
+    <li><b>ERP order number back-fill</b> (<code>update_erporderno</code>) is not implemented: its filter can never pass in Talend, and if it did it would throw. Business to confirm.</li>
+    <li><b>Several invoices for one order</b>: one update with the last row's values (Talend sent duplicate IDs in one batch).</li>
+    <li><b>Feedback file</b>: one file per country per run instead of appending to a daily file.</li>
+    <li><b>Orders are all-or-nothing</b>; a failure isolates that order only.</li>
+  </ul>
+</section>
+
+<!-- VALIDATION -->
+<section id="validation">
+  <h2>Validation &amp; parity</h2>
+  <p>Three levels, each answering a different question. Only the first two are complete.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Level</th><th>Question answered</th><th>How</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Unit tests on the reference</td><td>Does the reference encode the Talend expressions correctly?</td><td>24 tests on synthetic fixtures, one per rule and edge case</td><td><span class="pill ok">Passing</span></td></tr>
+      <tr><td>Simulator parity</td><td>Does the Groovy port, inside the iFlow design, do exactly what the reference does?</td><td><code>Simulator.groovy</code> executes the same flow definition as the bundle: Request-Reply, Router, Looping Process Call, Splitter, Exception Subprocess. The ordered call list (SOQL, SOAP bodies, PATCH bodies, files) must equal the reference's. 6 scenarios incl. paging, faults, NPE, rejected upsert.</td><td><span class="pill ok">Passing</span></td></tr>
+      <tr><td>Production parity</td><td>Does the migration produce what Talend produced on real data?</td><td>Replay archived inputs through the reference, compare with archived Talend outputs; then replay against the deployed iFlow on a sandbox.</td><td><span class="pill bad">Needs client data</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Oracles already in the client's systems</h3>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Source</th><th>What it holds</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>Talend_Jobmonitor__c</code> (Salesforce)</td><td>Per run: <code>SourceData__c</code> (the input) and <code>TargetData__c</code> + <code>EX1–3</code> (the rows Talend wrote), status and code</td><td>Exact field-by-field parity for monitored jobs, e.g. Wholesaler</td></tr>
+      <tr><td>TMC execution logs</td><td><span class="t">tLogRow</span> output: request, SAP response, update rows per order</td><td>PaymentDetail parity; also reveals namespace URIs missing from the export</td></tr>
+      <tr><td><code>P:\Services\Live\archiv\…</code></td><td>Processed input files and written feedback files</td><td>Replay inputs; compare CSV output</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- TRAPS -->
+<section id="traps">
+  <h2>Export traps</h2>
+  <p>Each of these would have produced a migration that looked correct and was wrong. They apply to every future job taken from the same export.</p>
+  <div class="callout"><p><strong>Standalone tMap_N.xml files are not per job.</strong> Talend writes all jobs of a package into shared file names, so the last job exported wins: the master's <code>tMap_1.xml</code> actually contained the child's map. The per-job HTML is authoritative. The parser only trusts a side XML when its tables and expressions match the HTML: 338 of 515 mappers verified, 177 taken from HTML only.</p></div>
+  <div class="callout"><p><strong>The HTML omits lookup behaviour.</strong> <code>lookup-mode="RELOAD"</code> and <code>globalMapKeysValues</code>, which define per-row lookup queries, exist only in the verified side XML.</p></div>
+  <div class="callout"><p><strong>Java code has literal newlines inside XML attributes.</strong> A normal XML parser folds them into spaces, so every <code>//</code> comment swallows the rest of the code. The parser escapes them before parsing.</p></div>
+  <div class="callout info"><p><strong>Not in the documentation export:</strong> project routine source, <span class="t">tWriteXMLField</span> “Configure XML Tree”, namespace URIs and loop elements of tXMLMap trees, TMC schedules and per-task context values.</p></div>
+  <div class="callout info"><p><strong>Ask for the Talend project export as well.</strong> The client sent build exports of all 50 packages on 14 Oct 2026 (job <code>.item</code> files, generated Java, routine source, per-environment contexts). It closed every gap above except the scheduler, and it changed three things we had believed:</p>
+  <ul>
+    <li><b><code>StringMod.PadLeft</code> throws on null</b> instead of returning null — a defect in an interface we had already deployed. Fixed and redeployed.</li>
+    <li><b>The SOAP request envelope uses the SOAP 1.1 namespace</b> although the call is SOAP 1.2. Also fixed and redeployed.</li>
+    <li><b>A project routine opens its own MySQL connection</b> (<code>TDIData</code> → <code>talend_tdi.datamap</code>) in 13 packages, with the credentials hardcoded in the routine source. No component inventory can show this; it is a 14th end system and a security item.</li>
+  </ul>
+  <p>Lesson for the next estate: the documentation export tells you what a job looks like, the project export tells you what it does.</p></div>
+</section>
+
+<!-- TOOLCHAIN -->
+<section id="toolchain">
+  <h2>Toolchain</h2>
+  <p>Everything lives in the <code>Talend_To_IS</code> workspace. Python 3.10+ standard library only; Java 11+ for the simulator (Groovy jars are bundled in <code>tools/lib</code>).</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Path</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>tools/talend_doc_parser.py</code></td><td>Doc export → <code>analysis/jobs/*.json</code> (components, params, connections, contexts, verified mappers)</td></tr>
+      <tr><td><code>tools/show_job.py</code></td><td>Readable dump of one job</td></tr>
+      <tr><td><code>tools/build_inventory.py</code></td><td>Estate inventory: pattern, maps, Java lines, complexity band, shared sub-jobs and their variants</td></tr>
+      <tr><td><code>common/reference/talend_rt.py</code></td><td>Java / Talend runtime semantics used by references</td></tr>
+      <tr><td><code>interfaces/&lt;job&gt;/reference/</code></td><td>Executable Python specification of the job</td></tr>
+      <tr><td><code>interfaces/&lt;job&gt;/groovy/</code></td><td>The script deployed in the iFlow</td></tr>
+      <tr><td><code>interfaces/&lt;job&gt;/iflow/flow.py</code></td><td>iFlow design: processes, steps, routers, loops, receivers, parameters</td></tr>
+      <tr><td><code>interfaces/&lt;job&gt;/SPEC.md</code></td><td>Field mapping, deviations, open questions, oracle plan, tenant checklist</td></tr>
+      <tr><td><code>tools/iflow_builder/</code></td><td>Renders BPMN from <code>flow.py</code> using property sets harvested from real tenant iFlows; validates references, wiring, script functions and parameters</td></tr>
+      <tr><td><code>tools/cpi_sim/</code></td><td>Local simulator and parity helper</td></tr>
+      <tr><td><code>tools/cpi_deploy.py</code></td><td>Content API: upload, deploy, status, error, download</td></tr>
+    </tbody>
+  </table>
+  </div>
+<pre class="code"># analyse
+python tools/talend_doc_parser.py TalendDocumentation analysis
+python tools/build_inventory.py analysis
+
+# build every bundle and run all tests
+python run_tests.py            # reference + simulator (needs Java)
+python run_tests.py --fast     # reference only
+
+# deploy (service key read in-process, never printed)
+python tools/cpi_deploy.py --key &lt;service-key.json&gt; upload dist/Talend_SF_PI_PaymentDetail.zip
+python tools/cpi_deploy.py --key &lt;service-key.json&gt; deploy Talend_SF_PI_PaymentDetail
+python tools/cpi_deploy.py --key &lt;service-key.json&gt; error  Talend_PI_SF_Wholesaler</pre>
+  <h3>Adding the next interface</h3>
+  <ol>
+    <li>Dump the job with <code>show_job.py</code>; confirm every mapper is verified or HTML-sourced, and note RELOAD lookups.</li>
+    <li>Write <code>reference/</code> with unit tests for each rule and each Java edge case.</li>
+    <li>Write <code>iflow/flow.py</code> and the Groovy script with matching function names.</li>
+    <li>Add <code>tests/test_parity.py</code> using a recording mock; run <code>run_tests.py</code>.</li>
+    <li>Write <code>SPEC.md</code>: mapping, deviations, open questions, oracle data to request.</li>
+  </ol>
+</section>
+
+<!-- DEPLOY -->
+<section id="deploy">
+  <h2>Deployment</h2>
+  <p>Both bundles are deployed and <b>STARTED</b> in package <code>TalendMigration</code> on the Tarento tenant, rebuilt there after the tenant refresh on 7 Oct 2026. The generated BPMN compiles and both routes start; real runs still need the security material below.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Prerequisite</th><th>Type</th><th>Used by</th></tr></thead>
+    <tbody>
+      <tr><td><code>SF_EPSCONNECT_OAUTH</code></td><td>OAuth2 Client Credentials (Salesforce Connected App, token URL on the My Domain)</td><td>Both</td></tr>
+      <tr><td><code>PI_PIAPPLEPS</code></td><td>User Credentials</td><td>PaymentDetail</td></tr>
+      <tr><td><code>SFTP_SERVICES</code> + host key in known_hosts</td><td>User Credentials</td><td>Both</td></tr>
+      <tr><td>Cloud Connector virtual host to PI (test system first)</td><td>Connectivity</td><td>PaymentDetail</td></tr>
+      <tr><td>SFTP endpoint replacing <code>P:\Services</code></td><td>Landscape</td><td>Both</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout"><p><strong>Before real runs:</strong> point <code>PI_URL</code> at the PI test system and <code>SF_InstanceUrl</code> at a Salesforce sandbox. The current defaults mirror the Talend Live context.</p></div>
+  <h3>Checks in the Integration Suite designer after import</h3>
+  <ul>
+    <li>SFTP sender: sorting by timestamp, poll schedule, post-processing Delete.</li>
+    <li>HTTP receivers: proxy type (Internet for Salesforce, On-Premise for PI), authentication, “Throw Exception on Failure” off for PI.</li>
+    <li>Timer schedule for PaymentDetail (placeholder: every 60 minutes).</li>
+    <li>“Read configuration” Content Modifier leaves the message body untouched.</li>
+  </ul>
+</section>
+
+<!-- NEXT -->
+<section id="next">
+  <h2>Open items &amp; next wave</h2>
+  <h3>Needed from the client</h3>
+  <ul>
+    <li><b>Oracle data</b>: <code>Talend_Jobmonitor__c</code> export and archived files for Wholesaler; TMC logs and feedback files for PaymentDetail.</li>
+    <li><b>Missing source</b>: <s>routine sources</s> received with the project export; <b>TMC schedules</b> and per-task context values are still outstanding — they are the only gap the project export did not close.</li>
+    <li><b>Security</b>: rotate the <code>talend_tdi</code> database password; it is readable in the routine source of every built job.</li>
+    <li><b>Mapping data</b>: export the <code>datamap</code> table so its content can move to Integration Suite value mappings (13 packages depend on it).</li>
+    <li><b>Decisions</b>: owner policy (Wholesaler); ERP back-fill, multiple invoices, feedback file format (PaymentDetail).</li>
+    <li><b>Landscape</b>: SFTP instead of the file share, Cloud Connector to PI, Salesforce Connected App.</li>
+  </ul>
+  <h3>Estate by pattern</h3>
+  <p class="muted">First-pass grouping from the initial inventory. The authoritative estate view — 50 packages scored and banded, 530 connections, 14 end systems, the target iFlow range and all findings — is the discovery workbook, report and dashboard.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Pattern</th><th class="num">Packages</th><th class="num">Low</th><th class="num">Medium</th><th class="num">High</th><th>Template</th></tr></thead>
+    <tbody>
+      <tr><td>Salesforce → SAP via PI SOAP → Salesforce</td><td class="num">23</td><td class="num">8</td><td class="num">9</td><td class="num">6</td><td>PaymentDetail</td></tr>
+      <tr><td>SAP (PI file) → Salesforce</td><td class="num">10</td><td class="num">8</td><td class="num">2</td><td class="num">0</td><td>Wholesaler</td></tr>
+      <tr><td>Salesforce → e-mail</td><td class="num">7</td><td class="num">7</td><td class="num">0</td><td class="num">0</td><td>new: Mail adapter</td></tr>
+      <tr><td>File / REST / FTP variants</td><td class="num">5</td><td class="num">5</td><td class="num">0</td><td class="num">0</td><td>new</td></tr>
+      <tr><td>Other (SAP file with SOAP call, SF → file, SF → SF, misc.)</td><td class="num">5</td><td class="num">4</td><td class="num">1</td><td class="num">0</td><td>mixed</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Complexity bands are a first-pass sizing aid from expression count, components, custom Java and sub-jobs, not an estimate.</p>
+  <h3>Suggested next candidates</h3>
+  <ul>
+    <li><code>SF_PI_GoodsMovement</code> (42 expressions): same shape as PaymentDetail, uses the job monitor.</li>
+    <li><code>PI_SF_Condition</code> (56 expressions): same shape as Wholesaler.</li>
+    <li><code>SF_PI_PersonAccount</code> + <code>SF_SF_GetAccountNumber</code>: embedded in 7 packages in 2 variants; reconcile once, build as ProcessDirect iFlows.</li>
+  </ul>
+</section>
+</main>
+</div>
+
+<footer>Generated from the Talend_To_IS workspace. Detailed field mappings and open questions per interface are in each <code>SPEC.md</code>.</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  if (typeof mermaid === "undefined") return;           // offline: diagrams stay as text
+  var root = document.documentElement;
+  var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var items = Array.prototype.slice.call(document.querySelectorAll("pre.mermaid")).map(function (pre) {
+    var mount = document.createElement("div");
+    mount.className = "mermaid-diagram";
+    return { pre: pre, mount: mount, src: pre.textContent || "" };
+  });
+  var seq = 0, last = "";
+  function render() {
+    var theme = root.getAttribute("data-theme");
+    var dark = theme === "dark" || (!!(mq && mq.matches) && theme !== "light");
+    if (String(dark) === last) return;
+    last = String(dark);
+    var css = getComputedStyle(document.body);
+    mermaid.initialize({
+      startOnLoad: false, securityLevel: "strict", theme: "base",
+      flowchart: { useMaxWidth: false },
+      themeVariables: {
+        background: css.backgroundColor,
+        mainBkg: dark ? "#1c2630" : "#ffffff",
+        primaryColor: dark ? "#1c2630" : "#ffffff",
+        primaryTextColor: dark ? "#e5ebf1" : "#17212b",
+        lineColor: dark ? "#8d99a6" : "#566271",
+        primaryBorderColor: dark ? "#2a3642" : "#dbe1e7",
+        nodeBorder: dark ? "#3a4652" : "#c4ccd4",
+        clusterBorder: dark ? "#2a3642" : "#dbe1e7",
+        clusterBkg: "rgba(127,127,127,0.07)",
+        edgeLabelBackground: css.backgroundColor,
+        fontSize: "15px", fontFamily: css.fontFamily, darkMode: dark
+      }
+    });
+    items.forEach(function (it) {
+      mermaid.render("m" + seq++, it.src).then(function (r) {
+        it.mount.innerHTML = r.svg;
+        if (!it.mount.parentNode) it.pre.parentNode.insertBefore(it.mount, it.pre);
+        it.pre.style.display = "none";
+      });
+    });
+  }
+  render();
+  if (mq && mq.addEventListener) mq.addEventListener("change", render);
+})();
+</script>
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+</body>
+</html>
